@@ -9,5 +9,4 @@ public class FpolyStadiumApplication {
     public static void main(String[] args) {
         SpringApplication.run(FpolyStadiumApplication.class, args);
     }
-
 }
