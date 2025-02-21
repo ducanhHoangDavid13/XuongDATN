@@ -2,17 +2,19 @@ create database DB_Dat_San
 GO	
 use  DB_Dat_San
 go
+DROP TABLE Nhan_Vien
 CREATE TABLE Nhan_Vien (
-    ma_nhan_vien INT PRIMARY KEY IDENTITY(1,1),
+ID INT PRIMARY KEY IDENTITY(1,1),
+    ma_nhan_vien NVARCHAR(255) ,
     ten_nhan_vien NVARCHAR(255),
     mat_khau VARCHAR(255),
     email VARCHAR(255),
     gioi_tinh BIT,
     sdt VARCHAR(20),
     dia_chi VARCHAR(255),
-    trang_thai VARCHAR(50) CHECK (trang_thai IN ('Hoạt động', 'Không hoạt động'))
+    trang_thai INT
 );
-
+drop table Khach_Hang
 CREATE TABLE Khach_Hang (
     id INT PRIMARY KEY IDENTITY(1,1),
     ma_khach_hang NVARCHAR(255),
@@ -21,32 +23,32 @@ CREATE TABLE Khach_Hang (
     email VARCHAR(255),
     gioi_tinh BIT,
     so_dien_thoai VARCHAR(20),
-    trang_thai VARCHAR(50) CHECK (trang_thai IN ('Hoạt động', 'Không hoạt động'))
+    trang_thai INT
 );
-
+drop table Hoa_Don
 CREATE TABLE Hoa_Don (
     id INT PRIMARY KEY IDENTITY(1,1),
-    id_nhan_vien INT FOREIGN KEY REFERENCES Nhan_Vien(ma_nhan_vien),
+    id_nhan_vien INT FOREIGN KEY REFERENCES Nhan_Vien(id),
     id_khach_hang INT FOREIGN KEY REFERENCES Khach_Hang(id),
     ma_hoa_don NVARCHAR(255),
     ngay_tao DATETIME,
     tong_tien DECIMAL(18,2),
-    tien_coc DECIMAL(18,2),
+    loai_hoa_don INT,
     ghi_chu VARCHAR(255),
-    trang_thai VARCHAR(50) CHECK (trang_thai IN ('Chưa thanh toán', 'Đã thanh toán', 'Hủy'))
+    trang_thai INT
 );
-
+drop table hoa_don_chi_tiet
 CREATE TABLE hoa_don_chi_tiet (
     id INT PRIMARY KEY IDENTITY(1,1),
     id_san_ca INT,
     id_phieu_giam_gia INT,
-    id_nhan_vien INT FOREIGN KEY REFERENCES Nhan_Vien(ma_nhan_vien),
+    id_nhan_vien INT FOREIGN KEY REFERENCES Nhan_Vien(id),
     id_hoa_don INT FOREIGN KEY REFERENCES Hoa_Don(id),
     ma_hoa_don_chi_tiet NVARCHAR(255),
     ngay_den_san DATETIME,
     tien_giam_gia DECIMAL(18,2),
     ghi_chu VARCHAR(255),
-    trang_thai VARCHAR(50) CHECK (trang_thai IN ('Đang xử lý', 'Hoàn tất', 'Hủy'))
+    trang_thai INT
 );
 
 CREATE TABLE do_uong (
@@ -54,7 +56,7 @@ CREATE TABLE do_uong (
     ten_do_uong NVARCHAR(255),
     don_gia FLOAT,
     so_luong INT,
-    trang_thai VARCHAR(50) CHECK (trang_thai IN ('Còn hàng', 'Hết hàng'))
+    trang_thai INT
 );
 
 CREATE TABLE do_thue (
@@ -62,7 +64,7 @@ CREATE TABLE do_thue (
     ten_do_thue NVARCHAR(255),
     don_gia FLOAT,
     so_luong INT,
-    trang_thai VARCHAR(50) CHECK (trang_thai IN ('Còn hàng', 'Hết hàng'))
+    trang_thai INT
 );
 
 CREATE TABLE dich_vu_san_bong (
@@ -71,33 +73,41 @@ CREATE TABLE dich_vu_san_bong (
     id_do_thue INT FOREIGN KEY REFERENCES do_thue(id),
     id_hoa_don_chi_tiet INT FOREIGN KEY REFERENCES hoa_don_chi_tiet(id),
     tong_tien DECIMAL(18,2),
-    trang_thai VARCHAR(50) CHECK (trang_thai IN ('Sẵn sàng', 'Không khả dụng'))
+    trang_thai INT
 );
 
 CREATE TABLE san_ca (
     id INT PRIMARY KEY IDENTITY(1,1),
-    id_ca INT,
-    ngay_trong_tuan DATE,
-    id_san_bong INT,
+    id_ca INT FOREIGN KEY REFERENCES ca(id) ,
+    id_ngay INT  FOREIGN KEY REFERENCES ngay(id),
+    id_san_bong INT  FOREIGN KEY REFERENCES san_bong(id),
     gia FLOAT,
-    trang_thai VARCHAR(50) CHECK (trang_thai IN ('Còn trống', 'Đã đặt', 'Hủy'))
+    trang_thai INT
 );
-
+CREATE TABLE ngay(
+id INT PRIMARY KEY IDENTITY(1,1),
+ngay_san Date,
+thu_trong_tuan VARCHAR(50),
+trang_thai INT
+)
+Drop table san_bong
 CREATE TABLE san_bong (
-    id_loai_san INT PRIMARY KEY IDENTITY(1,1),
+id INT PRIMARY KEY IDENTITY(1,1),
     dia_chi NVARCHAR(255),
-    trang_thai VARCHAR(50) CHECK (trang_thai IN ('Hoạt động', 'Bảo trì')),
-    ten_san NVARCHAR(255)
+    trang_thai INT,
+    ten_san NVARCHAR(255),
+	     id_loai_san INT FOREIGN KEY REFERENCES loai_san(id)
 );
 
 CREATE TABLE loai_san (
     id INT PRIMARY KEY IDENTITY(1,1),
     ten_loai_san NVARCHAR(255),
-    trang_thai VARCHAR(50) CHECK (trang_thai IN ('Hoạt động', 'Không hoạt động'))
+    trang_thai INT
 );
-
+Drop table phieu_giam_gia
 CREATE TABLE phieu_giam_gia (
-    ma_phieu_giam_gia NVARCHAR(255) PRIMARY KEY,
+	id int identity(1,1) primary key,
+    ma_phieu_giam_gia NVARCHAR(255) ,
     ten_phieu_giam_gia NVARCHAR(255),
     so_luong INT,
     muc_giam FLOAT,
@@ -109,14 +119,14 @@ CREATE TABLE phieu_giam_gia (
     ngay_bat_dau DATE,
     ngay_ket_thuc DATE,
     ghi_chu VARCHAR(255),
-    trang_thai VARCHAR(50) CHECK (trang_thai IN ('Còn hiệu lực', 'Hết hạn'))
+    trang_thai  INT
 );
-
+Drop table phieu_giam_gia_chi_tiet
 CREATE TABLE phieu_giam_gia_chi_tiet (
     id INT PRIMARY KEY IDENTITY(1,1),
     id_khach_hang INT FOREIGN KEY REFERENCES Khach_Hang(id),
-    id_phieu_giam_gia NVARCHAR(255) FOREIGN KEY REFERENCES phieu_giam_gia(ma_phieu_giam_gia),
-    trang_thai VARCHAR(50) CHECK (trang_thai IN ('Đang sử dụng', 'Hết hạn'))
+    id_phieu_giam_gia INT FOREIGN KEY REFERENCES phieu_giam_gia(id),
+    trang_thai int
 );
 
 CREATE TABLE ca (
@@ -124,14 +134,9 @@ CREATE TABLE ca (
     ten_ca NVARCHAR(255),
     thoi_gian_bat_dau DATETIME,
     thoi_gian_ket_thuc DATETIME,
-    trang_thai VARCHAR(50) CHECK (trang_thai IN ('Mở', 'Đóng'))
+    trang_thai INT
 );
 
-CREATE TABLE ngay_trong_tuan (
-    id INT PRIMARY KEY IDENTITY(1,1),
-    thu_trong_tuan NVARCHAR(50),
-    trang_thai VARCHAR(50) CHECK (trang_thai IN ('Hoạt động', 'Không hoạt động'))
-);
 
 CREATE TABLE roles (
     id INT PRIMARY KEY IDENTITY(1,1),
@@ -152,7 +157,7 @@ CREATE TABLE user_role (
     role_id INT FOREIGN KEY REFERENCES roles(id),
     user_id INT FOREIGN KEY REFERENCES Users(id)
 );
-
+/*
 INSERT INTO do_thue (ten_do_thue, don_gia, so_luong, trang_thai) VALUES
 ('Bóng Đá', 50.0, 20, 'Còn hàng'),
 ('Giày Đá Bóng', 30.0, 15, 'Còn hàng'),
@@ -285,4 +290,4 @@ INSERT INTO san_ca (id_ca, ngay_trong_tuan, id_san_bong, gia, trang_thai) VALUES
 (14, 7, 2, 215000, 'Đã đặt'),
 (15, 1, 3, 195000, 'Hủy'),
 (16, 2, 1, 175000, 'Còn trống'),
-(17, 3, 2, 225000,'Hủy')
+(17, 3, 2, 225000,'Hủy')*/
