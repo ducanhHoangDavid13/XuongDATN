@@ -1,0 +1,156 @@
+/* Reset mặc định */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+}
+
+/* Header */
+.header-center {
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
+    position: relative;
+    z-index: 100;
+}
+
+.cus-logo img {
+    max-height: 60px;
+}
+
+.header__search .input-group {
+    display: flex;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.header__search input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    outline: none;
+}
+
+.header__search button {
+    background-color: #E0FFFF;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.entire-action-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.btn-action-header {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    padding: 5px 10px;
+    transition: 0.3s;
+}
+
+.btn-action-header:hover {
+    color: #E0FFFF;
+}
+
+/* Menu */
+.setting-menu {
+    background-color: #E0FFFF;
+    padding: 10px 0;
+}
+
+.cus-menuheader ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.cus-menuheader ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 5px 10px;
+    transition: 0.3s;
+}
+
+.cus-menuheader ul li a:hover {
+    color: #ddd;
+}
+
+/* Định dạng nút đặt sân */
+.btn-primary {
+    background-color: #E0FFFF;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #E0FFFF;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border: none;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .row {
+        flex-direction: column;
+        text-align: center;
+    }
+    .cus-menuheader ul {
+        flex-direction: column;
+    }
+}
+
+ .footer-container {
+     display: flex;
+     justify-content: space-between;
+     background-color: #E0FFFF;
+     color: white;
+     padding: 20px;
+ }
+.footer-section {
+    flex: 1;
+    margin: 0 10px;
+}
+.footer-section h4 {
+    border-bottom: 2px solid #E0FFFF;
+    padding-bottom: 5px;
+}
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+.footer-section ul li a {
+    color: white;
+    text-decoration: none;
+}
+.footer-section ul li a:hover {
+    text-decoration: underline;
+}
+.social-icons {
+    display: flex;
+    gap: 10px;
+}
+.footer-bottom {
+    text-align: center;
+    background-color: #111;
+    padding: 10px 0;
+    color: white;
+}
+
+
