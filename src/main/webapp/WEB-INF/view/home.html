@@ -5,80 +5,103 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đặt Sân Sóng 24/7</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/src/main/webapp/WEB-INF/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 </head>
-<header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-success p-3">
-        <div class="container">
 
-            <a class="navbar-brand" href="#">Đặt Sân Bóng</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Nhap san de tim kiem..." aria-label="Search" >
-                    <span class="btn-primary"></span>
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
-            </div>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#">Sân bóng</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Đặt Sân</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-person">Tai Khoan</i></a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Giỏ hàng</a></li>
-                </ul>
-            </div>
-
-
-        </div>
-    </nav>
-    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="" class="d-block w-100" alt="Sân bóng">
-            </div>
-        </div>
-    </div>
-</header>
-
-<body class="bg-light">
-<div class="text-center my-5">
-    <h2 class="fw-bold">Đặt Sân Dễ Dàng</h2>
-    <p class="text-muted">Chọn sân, đặt lịch và chơi ngay!</p>
-    <div class="mt-3">
-        <a href="#" class="btn btn-primary">Đặt Sân Ngay</a>
-        <a href="#" class="btn btn-secondary">Xem Lịch</a>
-    </div>
-</div>
-<aside>
-    <div class="card" style="width: 18rem;">
-        <img src="..." class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-    </div>
-    <div class="card" style="width: 18rem;">
-        <img src="..." class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-    </div>
-    <div class="card" style="width: 18rem;">
-        <img src="..." class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-    </div>
-</aside>
-
+<body class="container">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<header>
+    <div class="container">
+        <div class="logo">
+            <a href="">
+                <img src="https://th.bing.com/th/id/OIP.g8p9wGQ-lsQI_slSWsZZagHaHz?rs=1&pid=ImgDetMain" alt="Sport World - Heart of the Game" width="200" height="100">
+            </a>
+        </div>
+        <div class="search">
+            <input type="text" placeholder="Tìm sân 1">
+            <button type="submit">Tìm kiếm</button>
+        </div>
+        <div class="user-actions">
+            <a href="#">
+                <i class="bi bi-shop"></i>
+                <span>Dịch vụ</span></a>
+            <a href="#">
+                <i class="bi bi-shop"></i>
+                <span>Cửa hàng</span></a>
+            <a href="#">
+                <i class="bi bi-football"></i>
+                <span>Sân thể thao</span>
+            </a>
+            <a href="#">
+                <i class="bi bi-people"></i>
+                <span>Tài khoản</span>
+            </a>
+            <a href="#">
+                <i class="bi bi-cart3"></i>
+                <span>Giỏ hàng</span>
+            </a>
+            </a>
+        </div>
+    </div>
+
+</header>
+<!--<nav>-->
+<!--    <ul>-->
+<!--        <li th:each="item : ${menuItems}">-->
+<!--            <a th:href="@{#${item.id}}" th:text="${item.name}"></a>-->
+<!--        </li>-->
+<!--    </ul>-->
+<!--</nav>-->
+
+<!--<th:block th:each="item : ${menuItems}">-->
+<!--    <section th:id="${item.id}" th:if="${item.id == 'bongda'}">-->
+<!--        <h2 th:text="${item.name}"></h2>-->
+<!--    </section>-->
+<!--</th:block>-->
+<nav>
+    <ul>
+        <li><a href="#">Bóng đá</a></li>
+        <li><a href="#">Cầu lông</a></li>
+        <li><a href="#">Pickleball</a></li>
+        <li><a href="#">Bóng rổ</a></li>
+        <li><a href="#">Tennis</a></li>
+        <li><a href="#">Bóng chuyền</a></li>
+    </ul>
+</nav>
+<main>
+    <section class="breadcrumb">
+        <a href="#">Trang chủ</a> > <a href="#">Bóng đá</a>
+    </section>
+
+    <section class="category-title">
+        <h1>Bóng đá</h1>
+    </section>
+
+    <section class="product-categories">
+        <div class="category-item">
+            <img src="https://th.bing.com/th/id/OIP.ekLea_Zoy_wvjdyHOGi_7wHaD4?rs=1&pid=ImgDetMain" alt="sân bóng 7 người">
+            <h3>sân bóng 7 người</h3>
+            <p>24 Sản phẩm</p>
+        </div>
+        <div class="category-item">
+            <img src="https://drive.gianhangvn.com/image/nha-thi-dau-cau-long-1159854j25005.jpgt" alt="Sân cầu lông trong nhà">
+            <h3>Sân cầu lông trong nhà</h3>
+            <p>4 Sản phẩm</p>
+        </div>
+        <div class="category-item">
+            <img src="https://th.bing.com/th/id/OIP.7_UKe4Ah7dk59sFwJTWEbAHaE8?rs=1&pid=ImgDetMain" alt="Sân tenis">
+            <h3>Sân tenis</h3>
+            <p>17 Sản phẩm</p>
+        </div>
+        <div class="category-item">
+            <img src="https://img5.thuthuatphanmem.vn/uploads/2021/11/20/anh-bong-chuyen_034940377.jpg" alt="Sân bóng chuyền">
+            <h3>Sân bóng chuyền </h3>
+            <p>1 Sản phẩm</p>
+        </div>
+    </section>
+</main>
+
 <footer>
     <div class="footer-container">
         <div class="footer-section">
@@ -123,13 +146,13 @@
             </ul>
         </div>
     </div>
-    <div class="footer-bottom">
-        <p>Copyright &copy;2025 TheGioiTheThao.vn. Bản quyền thuộc về Thế Giới Thể Thao</p>
-        <p>Công ty Cổ Phần Thương Mại Và Xây Dựng Thế Giới Thể Thao</p>
-        <p>Giấy chứng nhận đăng ký kinh doanh số: 0108207761</p>
-        <p>Do sở kế hoạch và đầu tư Thành phố Hà Nội cấp ngày: 30/03/2018</p>
-        <p><strong>Giao dịch an toàn</strong></p>
-    </div>
+<!--    <div class="footer-bottom">-->
+<!--        <p>Copyright &copy;2025 TheGioiTheThao.vn. Bản quyền thuộc về Thế Giới Thể Thao</p>-->
+<!--        <p>Công ty Cổ Phần Thương Mại Và Xây Dựng Thế Giới Thể Thao</p>-->
+<!--        <p>Giấy chứng nhận đăng ký kinh doanh số: 0108207761</p>-->
+<!--        <p>Do sở kế hoạch và đầu tư Thành phố Hà Nội cấp ngày: 30/03/2018</p>-->
+<!--        <p><strong>Giao dịch an toàn</strong></p>-->
+<!--    </div>-->
 </footer>
 </body>
 </html>

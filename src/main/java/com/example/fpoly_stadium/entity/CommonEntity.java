@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class CommonEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @CreationTimestamp
     @Column
@@ -28,5 +28,5 @@ public class CommonEntity {
     private LocalDateTime ngayCapNhat;
 
     @Column
-    private Boolean trangThai;
+    private Integer trangThai;
 }
