@@ -1,23 +1,21 @@
 package com.example.fpoly_stadium.entity.san;
 
 import com.example.fpoly_stadium.entity.CommonEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
-
+@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
-@Table(name = "do_thue")
+@Table(name ="do_thue")
 public class DoThue extends CommonEntity {
-    @Id
-    private Integer id;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Integer id;
     @Column(name = "don_gia")
     private Double donGia;
-
     @Column(name = "so_luong")
     private Integer soLuong;
     @Column(name = "ten_do_thue")

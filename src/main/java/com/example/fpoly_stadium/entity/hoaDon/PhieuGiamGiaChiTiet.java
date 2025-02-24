@@ -2,11 +2,12 @@ package com.example.fpoly_stadium.entity.hoaDon;
 
 import com.example.fpoly_stadium.entity.CommonEntity;
 import com.example.fpoly_stadium.entity.user.KhachHang;
+import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.*;
-
+@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

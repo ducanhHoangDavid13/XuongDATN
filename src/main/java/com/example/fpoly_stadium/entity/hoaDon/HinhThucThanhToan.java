@@ -1,12 +1,9 @@
 package com.example.fpoly_stadium.entity.hoaDon;
 
 import com.example.fpoly_stadium.entity.CommonEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
-
+@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

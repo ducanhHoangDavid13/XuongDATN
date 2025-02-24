@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface DoThueRepository extends JpaRepository<DoThue, Long> {
+public interface DoThueRepository extends JpaRepository<DoThue, Integer> {
 }

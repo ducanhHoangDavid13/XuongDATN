@@ -1,16 +1,21 @@
 package com.example.fpoly_stadium.entity.user;
 
+import com.example.fpoly_stadium.entity.CommonEntity;
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.*;
-
+@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
-@Table(name = "khach_hang")
-public class KhachHang {
+@Table(name = "Khach_Hang")
+public class KhachHang extends CommonEntity {
+//    @Id
+//    private Integer id;
     @Column
     private String maKhachHang;
 

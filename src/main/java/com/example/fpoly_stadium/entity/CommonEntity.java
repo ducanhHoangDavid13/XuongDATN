@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Setter
 @Getter
-
 @MappedSuperclass
 public class CommonEntity {
     @Id
