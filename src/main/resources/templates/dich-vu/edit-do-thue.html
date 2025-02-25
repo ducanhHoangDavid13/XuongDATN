@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Chỉnh Sửa Đồ Uống</title>
+    <link rel="stylesheet" th:href="@{/css/do-thue.css}">
+    <link rel="stylesheet" th:href="@{/style.css}">
+
+</head>
+<body>
+<header>
+    <div class="top-header">
+        <div class="top-content">
+            <div class="logo">
+                <img src="/images/img_4.png.png" alt="Logo">
+            </div>
+            <div class="search">
+                <input type="text" placeholder="Tìm kiếm">
+                <button type="submit"><i class="bi bi-search"></i></button> </div>
+            <div class="user-actions">
+                <a href="#">
+                    <i class="bi bi-shop"></i>
+                    <span>Cửa hàng</span>
+                </a>
+                <a href="#">
+                    <i class="bi bi-football"></i>
+                    <span>Sân thể thao</span>
+                </a>
+                <a href="#">
+                    <i class="bi bi-person-circle"></i>
+                    <span>Tài khoản</span>
+                </a>
+                <a href="#">
+                    <i class="bi bi-cart3"></i>
+                    <span>Giỏ hàng</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <nav>
+        <ul>
+            <li><a href="#">Bóng đá</a></li>
+            <li><a href="#">Cầu lông</a></li>
+            <li><a href="#">Pickleball</a></li>
+            <li><a href="#">Bóng bàn</a></li>
+            <li><a href="#">Bóng rổ</a></li>
+            <li><a href="#">Tennis</a></li>
+            <li><a href="#">Bóng chuyền</a></li>
+            <li><a href="#">Golf</a></li>
+        </ul>
+    </nav>
+</header>
+<br>
+<br>
+<br>
+<br>
+<main class="container mx-auto px-4 py-6">
+
+
+    <br>
+    <br>
+    <br>
+
+    <h2 class="text-2xl font-bold mb-4">Chỉnh Sửa Đồ Thuê</h2>
+
+    <form th:action="@{/do-thue/update/{id}(id=${doThue.id})}" method="post" th:object="${doThue}" class="form">
+        <label for="tenDoThue">Tên Đồ Thuê:</label>
+        <input type="text" id="tenDoThue" name="tenDoThue" th:field="*{tenDoThue}" required class="input-field"/>
+
+        <label for="donGia">Đơn Giá (VND):</label>
+        <input type="number" id="donGia" name="donGia" th:field="*{donGia}" required class="input-field"/>
+
+        <label for="soLuong">Số Lượng:</label>
+        <input type="number" id="soLuong" name="soLuong" th:field="*{soLuong}" required class="input-field"/>
+
+        <label for="trangThai">Trạng Thái:</label>
+        <select id="trangThai" name="trangThai" th:field="*{trangThai}" class="input-field">
+            <option value="1">Còn hàng</option>
+            <option value="0">Hết hàng</option>
+        </select>
+
+        <div class="actions">
+            <button type="submit" class="btn btn-save">💾 Lưu</button>
+            <a href="/dich-vu/san-pham" class="btn btn-back">⬅️ Quay Lại</a>
+        </div>
+    </form>
+</main>
+<footer>
+    <div class="footer-container">
+        <div class="footer-section">
+            <h4>Chính sách</h4>
+            <ul>
+                <li><a href="#">Chính sách bảo mật</a></li>
+                <li><a href="#">Điều khoản sử dụng</a></li>
+                <li><a href="#">Hướng dẫn đổi trả</a></li>
+                <li><a href="#">Cam kết chất lượng</a></li>
+                <li><a href="#">Giao hàng & Nhận hàng</a></li>
+                <li><a href="#">Đặt hàng & Thanh toán</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4>Hỗ trợ</h4>
+            <p>Hotline bán sỉ: 0904795885</p>
+            <p>Hotline hợp tác: 0904795885</p>
+            <p>Email: <a href="mailto:anhducfpoly2022@gmail.com">anhducfpoly2022@gmail.com</a></p>
+        </div>
+        <div class="footer-section">
+            <h4>Dịch vụ</h4>
+            <ul>
+                <li><a href="#">Tư vấn đầu tư thể thao</a></li>
+                <li><a href="#">Marketing dự án thể thao</a></li>
+                <li><a href="#">Phần mềm quản lý thể thao</a></li>
+                <li><a href="#">Quảng cáo trên sân thể thao</a></li>
+                <li><a href="#">Dịch vụ đặt sân & Tìm đối</a></li>
+                <li><a href="#">Phần mềm tổ chức giải đấu</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4>Cộng đồng</h4>
+            <ul class="social-icons">
+                <li><a href="#">fb</a></li>
+                <li><a href="#">X</a></li>
+                <li><a href="#">yt</a></li>
+                <li><a href="#">Pinterest</a></li>
+                <li><a href="#">zalo</a></li>
+                <li><a href="#">intar</a></li>
+                <li><a href="#">tiktok</a></li>
+                <li><a href="#">Gmap</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>Copyright &copy;2025 Datsanbong 24/7</p>
+        <p>Website dat san bong cho moi loai the thao</p>
+        <p>Giấy chứng nhận đăng ký kinh doanh số: 0108207761</p>
+        <p>Do sở kế hoạch và đầu tư Thành phố Hà Nội cấp ngày: 30/02/2024</p>
+        <p><strong>Giao dịch an toàn</strong></p>
+    </div>
+</footer>
+</body>
+</html>

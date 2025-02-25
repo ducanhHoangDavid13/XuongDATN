@@ -9,9 +9,9 @@ import org.springframework.ui.Model;
 @RequestMapping("/home")
 public class HomeController {
 
-    @GetMapping
+    @GetMapping("/")
     public String showHomePage(Model model) {
         model.addAttribute("message", "Chào mừng đến với Đặt Sân Sóng 24/7!");
-        return "home"; // Trả về home.jsp
+        return "home";
     }
 }
