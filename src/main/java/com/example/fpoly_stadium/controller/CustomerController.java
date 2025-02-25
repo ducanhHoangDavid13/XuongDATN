@@ -1,0 +1,59 @@
+package com.example.fpoly_stadium.controller;
+
+import com.example.fpoly_stadium.entity.user.KhachHang;
+import com.example.fpoly_stadium.services.CustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@Controller
+@RequestMapping("/customers")
+public class CustomerController {
+    @Autowired
+    private CustomerService customerService;
+
+    @GetMapping
+    public String listCustomers(@RequestParam(name = "search", required = false) String search,
+                                @RequestParam(name = "gender", required = false) Boolean gender,
+                                Model model) {
+        List<KhachHang> customers;
+
+        if (search != null && !search.isEmpty()) {
+            customers = customerService.searchCustomers(search);
+        } else if (gender != null) {
+            customers = customerService.filterByGender(gender);
+        } else {
+            customers = customerService.getAllCustomers();
+        }
+
+        model.addAttribute("customers", customers);
+        return "khach_hang/index";
+    }
+    @GetMapping("/new")
+    public String showCreateForm(Model model) {
+        model.addAttribute("customer", new KhachHang());
+        return "khach_hang/form";
+    }
+
+    @PostMapping("/save")
+    public String saveCustomer(@ModelAttribute("customer") KhachHang khachHang) {
+        customerService.saveCustomer(khachHang);
+        return "redirect:/customers";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable Integer id, Model model) {
+        KhachHang khachHang = customerService.getCustomerById(id);
+        model.addAttribute("customer", khachHang);
+        return "khach_hang/form";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteCustomer(@PathVariable Integer id) {
+        customerService.deleteCustomer(id);
+        return "redirect:/customers";
+    }
+}
