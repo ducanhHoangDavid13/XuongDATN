@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trang web bán đồ thể thao</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="/static/style.css">
+    
 </head>
 <body>
 <header>
@@ -23,32 +24,32 @@
 </header>
 
 <main>
-    <div th:each="category : ${categories}">
+    <div th:each="doUong : ${doThueList}">
         <section class="category-title">
-            <h1 th:text="${category}"></h1>
+            <h1 th:text="${doUong}"></h1>
         </section>
-        <section class="product-categories">
-            <div class="category-item">
-                <img src="co-nhan-tao.jpg" alt="Cỏ nhân tạo sân bóng">
-                <h3>Cỏ nhân tạo sân bóng</h3>
-                <p>24 Sản phẩm</p>
-            </div>
-            <div class="category-item">
-                <img src="tham-co-nhan-tao.jpg" alt="Thảm cỏ nhân tạo">
-                <h3>Thảm cỏ nhân tạo</h3>
-                <p>0 Sản phẩm</p>
-            </div>
-            <div class="category-item">
-                <img src="luoi-va-khung.jpg" alt="Lưới & Khung">
-                <h3>Lưới & Khung</h3>
-                <p>17 Sản phẩm</p>
-            </div>
-            <div class="category-item">
-                <img src="phu-kien-san-bong.jpg" alt="Phụ kiện sân bóng">
-                <h3>Phụ kiện sân bóng</h3>
-                <p>1 Sản phẩm</p>
-            </div>
-        </section>
+    <!--        <section class="product-categories">-->
+    <!--            <div class="category-item">-->
+    <!--                <img src="co-nhan-tao.jpg" alt="Cỏ nhân tạo sân bóng">-->
+    <!--                <h3>Cỏ nhân tạo sân bóng</h3>-->
+    <!--                <p>24 Sản phẩm</p>-->
+    <!--            </div>-->
+    <!--            <div class="category-item">-->
+    <!--                <img src="tham-co-nhan-tao.jpg" alt="Thảm cỏ nhân tạo">-->
+    <!--                <h3>Thảm cỏ nhân tạo</h3>-->
+    <!--                <p>0 Sản phẩm</p>-->
+    <!--            </div>-->
+    <!--            <div class="category-item">-->
+    <!--                <img src="luoi-va-khung.jpg" alt="Lưới & Khung">-->
+    <!--                <h3>Lưới & Khung</h3>-->
+    <!--                <p>17 Sản phẩm</p>-->
+    <!--            </div>-->
+    <!--            <div class="category-item">-->
+    <!--                <img src="phu-kien-san-bong.jpg" alt="Phụ kiện sân bóng">-->
+    <!--                <h3>Phụ kiện sân bóng</h3>-->
+    <!--                <p>1 Sản phẩm</p>-->
+    <!--            </div>-->
+    <!--        </section>-->
     </div>
 </main>
 

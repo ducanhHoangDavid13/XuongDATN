@@ -18,14 +18,14 @@ public class CommonEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @CreationTimestamp
-    @Column
-    private LocalDateTime ngayTao;
+//    @CreationTimestamp
+//    @Column
+//    private LocalDateTime ngayTao;
 
-    @UpdateTimestamp
-    @Column
-    private LocalDateTime ngayCapNhat;
+//    @UpdateTimestamp
+//    @Column
+//    private LocalDateTime ngayCapNhat;
 
-    @Column
-    private Integer trangThai;
+//    @Column
+//    private Integer trangThai;
 }

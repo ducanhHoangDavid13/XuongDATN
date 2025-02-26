@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import org.springframework.stereotype.Service;
 
 @Service
 public class DoUongServices {
@@ -40,4 +39,17 @@ public class DoUongServices {
     public void deleteDoUong(Integer id) {
         doUongRepository.deleteById(id);
     }
+
+    public List<DoUong> searchAndFilterDoUong(String keyword, Integer trangThai) {
+        if ((keyword == null || keyword.trim().isEmpty()) && trangThai == null) {
+            return doUongRepository.findAll(); // ✅ Trả về tất cả nếu không có điều kiện nào
+        } else if (keyword == null || keyword.trim().isEmpty()) {
+            return doUongRepository.findByTrangThai(trangThai); // ✅ Chỉ lọc theo trạng thái
+        } else if (trangThai == null) {
+            return doUongRepository.findByTenDoUongContainingIgnoreCase(keyword); // ✅ Chỉ tìm kiếm theo tên
+        } else {
+            return doUongRepository.findByTenDoUongContainingIgnoreCaseAndTrangThai(keyword, trangThai); // ✅ Cả hai điều kiện
+        }
+    }
+
 }

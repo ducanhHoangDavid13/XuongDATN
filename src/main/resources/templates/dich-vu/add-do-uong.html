@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Thêm Đồ Uống</title>
+    <link rel="stylesheet" th:href="@{/css/do-uong.css}">
+
+</head>
+<body>
+<h2>Thêm Đồ Uống</h2>
+<form th:action="@{/do-uong/add}" th:object="${doUong}" method="post">
+    <label for="tenDoUong">Tên đồ uống:</label>
+    <input type="text" id="tenDoUong" th:field="*{tenDoUong}" required>
+
+    <label for="donGia">Giá:</label>
+    <input type="number" id="donGia" th:field="*{donGia}" required>
+
+    <label for="soLuong">Số lượng:</label>
+    <input type="number" id="soLuong" th:field="*{soLuong}" required>
+
+    <label for="trangThai">Trạng thái:</label>
+    <select id="trangThai" th:field="*{trangThai}">
+        <option value="1">Còn hàng</option>
+        <option value="0">Hết hàng</option>
+    </select>
+
+    <button type="submit">Thêm Đồ Uống</button>
+</form>
+<br>
+<a href="/dich-vu/san-pham">⬅ Quay lại</a>
+</body>
+</html>
