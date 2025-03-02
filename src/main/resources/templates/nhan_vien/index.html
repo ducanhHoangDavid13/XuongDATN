@@ -85,46 +85,52 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form id="nhanVienForm" th:action="@{/staff/save}" method="post">
-          <input type="hidden" id="id" name="id">
-          <input type="hidden" id="trangThai" name="trangThai" value="1">
+        <form id="nhanVienForm" th:action="@{/staff/save}" method="post" th:object="${nhanVien}">
+          <input type="hidden" id="id" name="id" th:field="*{id}">
+          <input type="hidden" id="trangThai" name="trangThai" th:value="1" th:field="*{trangThai}">
 
           <div class="mb-3">
             <label>Mã Nhân Viên</label>
-            <input type="text" id="maNhanVien" name="maNhanVien" class="form-control" required>
+            <input type="text" id="maNhanVien" name="maNhanVien" class="form-control" th:field="*{maNhanVien}" required>
+            <div th:if="${#fields.hasErrors('maNhanVien')}" class="invalid-feedback" th:errors="*{maNhanVien}">Mã nhân viên không hợp lệ</div>
           </div>
 
           <div class="mb-3">
             <label>Tên Nhân Viên</label>
-            <input type="text" id="tenNhanVien" name="tenNhanVien" class="form-control" required>
+            <input type="text" id="tenNhanVien" name="tenNhanVien" class="form-control" th:field="*{tenNhanVien}" required>
+            <div th:if="${#fields.hasErrors('tenNhanVien')}" class="invalid-feedback" th:errors="*{tenNhanVien}">Tên nhân viên không hợp lệ</div>
           </div>
 
           <div class="mb-3">
             <label>Email</label>
-            <input type="email" id="email" name="email" class="form-control" required>
+            <input type="email" id="email" name="email" class="form-control" th:field="*{email}" required>
+            <div th:if="${#fields.hasErrors('email')}" class="invalid-feedback" th:errors="*{email}">Email không hợp lệ</div>
           </div>
 
           <div class="mb-3">
             <label>Giới tính</label>
-            <select id="gioiTinh" name="gioiTinh" class="form-control">
-              <option value="true">Nam</option>
-              <option value="false">Nữ</option>
+            <select id="gioiTinh" name="gioiTinh" class="form-control" th:field="*{gioiTinh}">
+              <option value="true" th:selected="*{gioiTinh} == true">Nam</option>
+              <option value="false" th:selected="*{gioiTinh} == false">Nữ</option>
             </select>
           </div>
 
           <div class="mb-3">
             <label>Số điện thoại</label>
-            <input type="text" id="sdt" name="sdt" class="form-control" required>
+            <input type="text" id="sdt" name="sdt" class="form-control" th:field="*{sdt}" required>
+            <div th:if="${#fields.hasErrors('sdt')}" class="invalid-feedback" th:errors="*{sdt}">Số điện thoại không hợp lệ</div>
           </div>
 
           <div class="mb-3">
             <label>Địa chỉ</label>
-            <input type="text" id="diaChi" name="diaChi" class="form-control" required>
+            <input type="text" id="diaChi" name="diaChi" class="form-control" th:field="*{diaChi}" required>
+            <div th:if="${#fields.hasErrors('diaChi')}" class="invalid-feedback" th:errors="*{diaChi}">Địa chỉ không hợp lệ</div>
           </div>
 
           <div class="mb-3">
             <label>Mật khẩu</label>
-            <input type="password" id="password" name="password" class="form-control">
+            <input type="password" id="password" name="password" class="form-control" th:field="*{matKhau}">
+            <div th:if="${#fields.hasErrors('matKhau')}" class="invalid-feedback" th:errors="*{matKhau}">Mật khẩu không hợp lệ</div>
           </div>
 
           <button type="submit" class="btn btn-success">
@@ -141,6 +147,8 @@
     $("#nhanVienForm")[0].reset();
     $("#id").val('');
     $("#trangThai").val('1');
+    $(".invalid-feedback").hide(); // ẩn thông báo lỗi
+    $(".form-control").removeClass("is-invalid"); // xóa lớp is-invalid
   }
 
   function filterNhanVien() {
@@ -156,6 +164,57 @@
       }
     });
   }
+
+  function editNhanVien(button) {
+    var id = $(button).data("id");
+    $.get("/staff/edit/" + id, function (data) {
+      $("#id").val(data.id);
+      $("#maNhanVien").val(data.maNhanVien);
+      $("#tenNhanVien").val(data.tenNhanVien);
+      $("#email").val(data.email);
+      $("#gioiTinh").val(data.gioiTinh);
+      $("#sdt").val(data.sdt);
+      $("#diaChi").val(data.diaChi);
+      $("#password").val(data.matKhau);
+      $("#trangThai").val(data.trangThai);
+    });
+  }
+
+  // Sử dụng AJAX để gửi form và hiển thị lỗi
+  $(document).ready(function() {
+    $('#nhanVienForm').on('submit', function(event) {
+      event.preventDefault();
+      var form = $(this);
+      $.ajax({
+        url: form.attr('action'),
+        method: form.attr('method'),
+        data: form.serialize(),
+        success: function(response) {
+          // Cập nhật nội dung modal nếu có lỗi
+          if ($(response).find('.invalid-feedback').length > 0) {
+            $('#nhanVienModal .modal-body').html($(response).find('.modal-body').html());
+          } else {
+            window.location.reload();
+          }
+        },
+        error: function() {
+          alert('Đã xảy ra lỗi. Vui lòng thử lại.');
+        }
+      });
+    });
+
+    // Khi modal đóng, không reset form
+    $('#nhanVienModal').on('hidden.bs.modal', function () {
+      clearForm();
+    });
+
+    // Khi modal mở, không reset form nếu có lỗi
+    $('#nhanVienModal').on('shown.bs.modal', function () {
+      if ($('#nhanVienForm .invalid-feedback').length > 0) {
+        $('#nhanVienModal').modal('show');
+      }
+    });
+  });
 </script>
 
 </body>

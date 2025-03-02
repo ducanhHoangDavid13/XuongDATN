@@ -1,6 +1,7 @@
 package com.example.fpoly_stadium.entity.user;
 
 import com.example.fpoly_stadium.entity.CommonEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -12,6 +13,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table(name = "nhan_vien")
 public class NhanVien extends CommonEntity {
 
@@ -25,6 +27,7 @@ public class NhanVien extends CommonEntity {
 
     @Column(name="mat_khau")
     @Size(min = 6, message = "Mật khẩu phải có ít nhất 6 ký tự")
+    @JsonIgnore
     private String matKhau;
 
     @Column(name="email")
