@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+</head>
+<body>
+
+<nav th:fragment="header" class="navbar navbar-expand-sm bg-light shadow">
+  <div class="container-fluid">
+    <!-- logo -->
+    <a href="/hoa-don/doanh-thu">
+      <img src="/images/logo.png" alt="" style="max-height: 80px;">
+    </a>
+    <!-- Thong tin user -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <p style="color: azure" class="nav-link btn btn-light" th:text="${nhanVien}">Hello</p>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link btn btn-primary text-light" href="/dang-nhap/login">
+          <i class="bi bi-box-arrow-right"></i> Đăng xuất
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div th:fragment="navbar">
+  <div class="card w-72 bg-white p-5 shadow-md shadow-blue-200/50 rounded-md">
+    <ul class="w-full flex flex-col gap-2">
+      <li class="flex-center cursor-pointer p-16-semibold w-full">
+        <a href="/quan-ly-san-pham" class="p-16-semibold flex size-full max-w-full gap-4 p-3 group font-semibold rounded-full bg-cover hover:bg-blue-100 hover:shadow-inner focus:bg-gradient-to-r from-blue-400 to-blue-600 focus:text-white text-gray-700 transition-all ease-linear overflow-hidden text-ellipsis whitespace-nowrap">
+          <i class="bi bi-box-seam size-6"></i>
+          Quản lý sân
+        </a>
+      </li>
+      <li class="flex-center cursor-pointer p-16-semibold w-full">
+        <a href="/ban-hang-online" class="p-16-semibold flex size-full max-w-full gap-4 p-3 group font-semibold rounded-full bg-cover hover:bg-blue-100 hover:shadow-inner focus:bg-gradient-to-r from-blue-400 to-blue-600 focus:text-white text-gray-700 transition-all ease-linear overflow-hidden text-ellipsis whitespace-nowrap">
+          <i class="bi bi-cart size-6"></i>
+          Dịch vụ
+        </a>
+      </li>
+      <li class="flex-center cursor-pointer p-16-semibold w-full">
+        <a href="/phieu-giam-gia" class="p-16-semibold flex size-full max-w-full gap-4 p-3 group font-semibold rounded-full bg-cover hover:bg-blue-100 hover:shadow-inner focus:bg-gradient-to-r from-blue-400 to-blue-600 focus:text-white text-gray-700 transition-all ease-linear overflow-hidden text-ellipsis whitespace-nowrap">
+          <i class="bi bi-shop size-6"></i>
+          Khuyến mãi
+        </a>
+      </li>
+      <li class="flex-center cursor-pointer p-16-semibold w-full">
+        <a href="/quan-ly-hoa-don" class="p-16-semibold flex size-full max-w-full gap-4 p-3 group font-semibold rounded-full bg-cover hover:bg-blue-100 hover:shadow-inner focus:bg-gradient-to-r from-blue-400 to-blue-600 focus:text-white text-gray-700 transition-all ease-linear overflow-hidden text-ellipsis whitespace-nowrap">
+          <i class="bi bi-receipt size-6"></i>
+          Quản lý hóa đơn
+        </a>
+      </li>
+      <li class="flex-center cursor-pointer p-16-semibold w-full">
+        <a href="/quan-ly-nhan-vien" class="p-16-semibold flex size-full max-w-full gap-4 p-3 group font-semibold rounded-full bg-cover hover:bg-blue-100 hover:shadow-inner focus:bg-gradient-to-r from-blue-400 to-blue-600 focus:text-white text-gray-700 transition-all ease-linear overflow-hidden text-ellipsis whitespace-nowrap">
+          <i class="bi bi-people size-6"></i>
+          Quản lý tài khoản
+        </a>
+      </li>
+      <li class="flex-center cursor-pointer p-16-semibold w-full">
+        <a href="/thong-ke" class="p-16-semibold flex size-full max-w-full gap-4 p-3 group font-semibold rounded-full bg-cover hover:bg-blue-100 hover:shadow-inner focus:bg-gradient-to-r from-blue-400 to-blue-600 focus:text-white text-gray-700 transition-all ease-linear overflow-hidden text-ellipsis whitespace-nowrap">
+          <i class="bi bi-bar-chart size-6"></i>
+          Thống kê
+        </a>
+      </li>
+    </ul>
+  </div>
+
+</div>
+</body>
+</html>

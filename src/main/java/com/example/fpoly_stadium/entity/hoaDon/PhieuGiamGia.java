@@ -1,12 +1,11 @@
 package com.example.fpoly_stadium.entity.hoaDon;
 
 import com.example.fpoly_stadium.entity.CommonEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.util.Date;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -15,37 +14,42 @@ import java.time.LocalDateTime;
 @Getter
 @Table(name = "phieu_giam_gia")
 public class PhieuGiamGia extends CommonEntity {
-    @Column
+
+    @Column(name = "ma_phieu_giam_gia")
     private String maPhieuGiamGia;
 
-    @Column
+    @Column(name = "ten_phieu_giam_gia")
     private String tenPhieuGiamGia;
 
-    @Column
+    @Column(name = "so_luong")
     private Integer soLuong;
 
-    @Column
-    private Double mucGiam;
+    @Column(name = "muc_giam")
+    private Float mucGiam;
 
-    @Column
-    private Double giaTriToiDa;
+    @Column(name = "dieu_kien_su_dung")
+    private Float dieuKienApDung;
 
-    @Column
+    @Column(name = "gia_tri_toi_da")
+    private Float giaTriToiDa;
+
+    @Column(name = "hinh_thuc_giam_gia")
     private Boolean hinhThucGiamGia;
 
-    @Column
-    private Boolean doiTuongApDung;
+    @Column(name = "doi_tuong_ap_dung")
+    private String doiTuongApDung;
 
-    @Column
-    private LocalDateTime ngayBatDau;
+    @Column(name = "ngay_bat_dau")
+    @Temporal(TemporalType.DATE)
+    private Date ngayBatDau;
 
-    @Column
-    private LocalDateTime ngayKetThuc;
+    @Column(name = "ngay_ket_thuc")
+    @Temporal(TemporalType.DATE)
+    private Date ngayKetThuc;
 
-    @Column
+    @Column(name = "ghi_chu")
     private String ghiChu;
 
-    @Column
-    private Double dieuKienSuDung;
-
+    @Column(name = "trang_thai")
+    private String trangThai;
 }
