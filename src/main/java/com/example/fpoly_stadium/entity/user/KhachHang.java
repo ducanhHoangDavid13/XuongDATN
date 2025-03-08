@@ -1,11 +1,7 @@
 package com.example.fpoly_stadium.entity.user;
-
-import com.example.fpoly_stadium.entity.CommonEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -13,24 +9,26 @@ import lombok.*;
 @Setter
 @Getter
 @Table(name = "Khach_Hang")
-public class KhachHang extends CommonEntity {
-//    @Id
-//    private Integer id;
-    @Column
+public class KhachHang {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(name = "ma_khach_hang")
     private String maKhachHang;
 
-    @Column
+    @Column(name = "mat_khau")
     private String matKhau;
 
-    @Column
+    @Column(name = "ho_va_ten")
     private String hoVaTen;
 
-    @Column
+    @Column(name = "email")
     private String email;
 
-    @Column
+    @Column(name = "gioi_tinh")
     private Boolean gioiTinh;
 
-    @Column
+    @Column(name = "so_dien_thoai")
     private String soDienThoai;
 }

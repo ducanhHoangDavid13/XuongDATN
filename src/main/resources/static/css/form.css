@@ -1,0 +1,48 @@
+/* Form styling */
+.card {
+    border: none;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #eee;
+    padding: 1rem;
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+.form-label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+/* Custom radio buttons */
+.form-check-input:checked {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+/* Button styling */
+.btn {
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+}
+
+.btn i {
+    margin-right: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .card-body {
+        padding: 1rem;
+    }
+}

@@ -15,16 +15,30 @@
 //    @Bean
 //    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 //        http
+//                // Đcm tắt CSRF đi cho dễ test
+//                .csrf(csrf -> csrf.disable())
+//
+//                // Config URL nào vào được
 //                .authorizeHttpRequests(auth -> auth
+//                        // Cho phép vào mấy folder static
+//                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+//
+//                        // Cho vào trang login/register
 //                        .requestMatchers("/login", "/register").permitAll()
-//                        .anyRequest().authenticated()
+//
+//                        // Vì đang test nên cho vào hết
+//                        .anyRequest().permitAll()
 //                )
+//
+//                // Config form login
 //                .formLogin(form -> form
-//                        .loginPage("/login")  // Trang đăng nhập của bạn
-//                        .defaultSuccessUrl("/sanbong", true)
-//                        .failureUrl("/login?error=true")  // Nếu đăng nhập sai
+//                        .loginPage("/login")
+//                        .defaultSuccessUrl("/san-bong", true) // Login xong nhảy về đây
+//                        .failureUrl("/login?error=true") // Sai thì về đây
 //                        .permitAll()
 //                )
+//
+//                // Config logout
 //                .logout(logout -> logout
 //                        .logoutUrl("/logout")
 //                        .logoutSuccessUrl("/login?logout=true")
@@ -36,7 +50,7 @@
 //
 //    @Bean
 //    public PasswordEncoder passwordEncoder() {
-//        return NoOpPasswordEncoder.getInstance();  // Không mã hóa mật khẩu
+//        // Ko cần mã hóa password lúc test
+//        return NoOpPasswordEncoder.getInstance();
 //    }
 //}
-//
