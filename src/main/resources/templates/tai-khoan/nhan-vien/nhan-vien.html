@@ -2,16 +2,17 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Quản Lý Phiếu Giảm Giá</title>
+    <title>Quản Lý Nhân Viên</title>
     <head th:replace="navbar/thuVien :: thuvien"></head>
     <link rel="stylesheet" type="text/css" href="/static/sttyle.css">
 </head>
 <body>
+<div th:replace="navbar/navadmin :: header"></div>
 <div class="d-flex">
     <div th:replace="navbar/navadmin :: navbar"></div>
     <div class="pt-3" style="width: calc(100% - 250px);">
         <div class="container">
-            <h2 style="text-align: center;">Quản Lý Phiếu Giảm Giá</h2>
+            <h2 style="text-align: center;">Quản Lý Nhân Viên</h2>
 
             <div class="mb-3 d-flex">
                 <div class="me-3">
@@ -120,9 +121,10 @@
                             <div class="mb-3">
                                 <label>Giới tính</label>
                                 <select id="gioiTinh" name="gioiTinh" class="form-control" th:field="*{gioiTinh}">
-                                    <option value="true" th:selected="*{gioiTinh} == true">Nam</option>
-                                    <option value="false" th:selected="*{gioiTinh} == false">Nữ</option>
+                                    <option value="true" th:selected="${gioiTinh}">Nam</option>
+                                    <option value="false" th:selected="${gioiTinh} == false">Nữ</option>
                                 </select>
+
                             </div>
 
                             <div class="mb-3">
@@ -201,7 +203,7 @@
             $("#maNhanVien").val(data.maNhanVien);
             $("#tenNhanVien").val(data.tenNhanVien);
             $("#email").val(data.email);
-            $("#gioiTinh").val(data.gioiTinh);
+            $("#gioiTinh").val(data.gioiTinh.toString());
             $("#sdt").val(data.sdt);
             $("#diaChi").val(data.diaChi);
             $("#password").val(data.matKhau);
