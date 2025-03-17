@@ -83,6 +83,10 @@
             <optional>true</optional>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>6.6.5.Final</version> <!-- Kiểm tra phiên bản -->

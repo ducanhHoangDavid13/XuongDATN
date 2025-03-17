@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Kết Quả Thanh Toán</title>
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Kết Quả Thanh Toán</h1>
+    <div class="alert" th:class="${message.contains('thành công') ? 'alert-success' : 'alert-danger'}">
+        <p th:text="${message}"></p>
+    </div>
+    <a th:href="@{/ban-hang}" class="btn btn-primary">Quay lại Bán Hàng</a>
+</div>
+</body>
+</html>

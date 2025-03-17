@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bán Hàng Tại Quầy</title>
+    <head th:replace="navbar/thuVien :: thuvien"></head>
+</head>
+<body>
+<div th:replace="navbar/navadmin :: header"></div>
+<div class="d-flex">
+    <div th:replace="navbar/navadmin :: navbar"></div>
+<div class="container mt-5">
+    <h1>Bán Hàng Tại Quầy</h1>
+
+    <div class="mb-4">
+        <h4>Lọc Hóa Đơn Chi Tiết</h4>
+        <form th:action="@{/ban-hang}" method="get" class="row g-3">
+            <div class="col-auto">
+                <label for="tenKhachHang" class="visually-hidden">Tên Khách Hàng</label>
+                <input type="text" class="form-control" id="tenKhachHang" name="tenKhachHang"
+                       th:value="${tenKhachHang}" placeholder="Tên khách hàng">
+            </div>
+            <div class="col-auto">
+                <label for="tenNhanVien" class="visually-hidden">Tên Nhân Viên</label>
+                <input type="text" class="form-control" id="tenNhanVien" name="tenNhanVien"
+                       th:value="${tenNhanVien}" placeholder="Tên nhân viên">
+            </div>
+            <div class="col-auto">
+                <label for="tenCa" class="visually-hidden">Tên Ca</label>
+                <input type="text" class="form-control" id="tenCa" name="tenCa"
+                       th:value="${tenCa}" placeholder="Tên ca">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">Tìm Kiếm</button>
+                <a th:href="@{/ban-hang}" class="btn btn-secondary">Xóa Lọc</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Tạo hóa đơn chờ -->
+    <form th:action="@{/ban-hang/tao-hoa-don}" method="post" class="mb-4" th:if="${hoaDon.id == null}">
+        <div class="mb-3">
+            <label for="nhanVienId">Nhân viên:</label>
+            <input type="number" id="nhanVienId" name="nhanVienId" class="form-control" value="1" required>
+        </div>
+        <div class="mb-3">
+            <label for="khachHangId">Khách hàng:</label>
+            <input type="number" id="khachHangId" name="khachHangId" class="form-control" value="1" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Tạo Hóa Đơn Chờ</button>
+    </form>
+
+    <!-- Hiển thị hóa đơn -->
+    <div th:if="${hoaDon.id != null}">
+        <h3>Hóa Đơn: <span th:text="${hoaDon.maHoaDon}"></span></h3>
+        <p>Tổng tiền: <span th:text="${hoaDon.tongTien}"></span> VND</p>
+        <p>Trạng thái: <span th:text="${hoaDon.trangThai == 0 ? 'Chưa thanh toán' : 'Đã thanh toán'}"></span></p>
+
+        <!-- Danh sách chi tiết -->
+        <h4>Chi Tiết Hóa Đơn</h4>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Sân</th>
+                <th>Ca</th>
+                <th>Giá</th>
+                <th>Ngày đến sân</th>
+                <th>Khách Hàng</th>
+                <th>Nhân Viên</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="chiTiet : ${chiTietList}">
+                <td th:text="${chiTiet.sanCa.sanBong.tenSanBong}"></td>
+                <td th:text="${chiTiet.sanCa.ca.tenCa}"></td>
+                <td th:text="${chiTiet.sanCa.gia}"></td>
+                <td th:text="${chiTiet.ngayDenSan}"></td>
+                <td th:text="${chiTiet.hoaDon.khachHang.hoVaTen}"></td>
+                <td th:text="${chiTiet.hoaDon.nhanVien.tenNhanVien}"></td>
+            </tr>
+            <tr th:if="${chiTietList == null or chiTietList.isEmpty()}">
+                <td colspan="6">Không có chi tiết nào</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- Thêm sân ca -->
+        <form th:action="@{/ban-hang/them-san-ca}" method="post" class="mb-4" th:if="${hoaDon.trangThai == 0}">
+            <input type="hidden" name="hoaDonId" th:value="${hoaDon.id}">
+            <div class="mb-3">
+                <label for="sanCaId">Chọn Sân Ca:</label>
+                <select id="sanCaId" name="sanCaId" class="form-control">
+                    <option th:each="sanCa : ${sanCaList}"
+                            th:value="${sanCa.id}"
+                            th:text="${sanCa.sanBong.tenSanBong} + ' - ' + ${sanCa.ca.tenCa} + ' - ' + ${sanCa.gia} + ' VND'"></option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="ngayDenSan">Ngày đến sân:</label>
+                <input type="number" id="ngayDenSan" name="ngayDenSan" class="form-control" value="20250310" required>
+            </div>
+            <button type="submit" class="btn btn-success">Thêm Sân Ca</button>
+        </form>
+
+        <!-- Thanh toán -->
+        <form th:action="@{/ban-hang/thanh-toan}" method="post" th:if="${hoaDon.trangThai == 0}">
+            <input type="hidden" name="hoaDonId" th:value="${hoaDon.id}">
+            <div class="mb-3">
+                <label for="hinhThucThanhToan">Hình thức thanh toán:</label>
+                <select id="hinhThucThanhToan" name="hinhThucThanhToan" class="form-control">
+                    <option value="Tiền mặt">Tiền mặt</option>
+                    <option value="VNPay">VNPay</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Thanh Toán</button>
+        </form>
+    </div>
+</div>
+</div>
+</body>
+</html>

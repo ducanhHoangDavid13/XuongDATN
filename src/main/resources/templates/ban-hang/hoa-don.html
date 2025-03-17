@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Quản lý Hóa Đơn</title>
+    <head th:replace="navbar/thuVien :: thuvien"></head>
+</head>
+<body>
+<div th:replace="navbar/navadmin :: header"></div>
+<div class="d-flex">
+    <div th:replace="navbar/navadmin :: navbar"></div>
+
+    <div class="container mt-4">
+        <h2>Quản lý Hóa Đơn</h2>
+
+        <form id="searchForm" action="/hoa-don/" method="get">
+            <div class="row">
+                <div class="col-md-3">
+                    <input type="text" name="keyword" class="form-control" placeholder="Tên khách hàng" th:value="${keyword}">
+                </div>
+                <div class="col-md-2">
+                    <select name="trangThai" class="form-control" th:value="${trangThai}">
+                        <option value="">Tất cả trạng thái</option>
+                        <option value="1">Đã thanh toán</option>
+                        <option value="0">Chưa thanh toán</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <input type="datetime-local" name="startDate" class="form-control" th:value="${startDate}">
+                </div>
+                <div class="col-md-2">
+                    <input type="datetime-local" name="endDate" class="form-control" th:value="${endDate}">
+                </div>
+                <div class="col-md-1">
+                    <input type="number" name="minPrice" class="form-control" placeholder="Min" th:value="${minPrice}">
+                </div>
+                <div class="col-md-1">
+                    <input type="number" name="maxPrice" class="form-control" placeholder="Max" th:value="${maxPrice}">
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-1">
+                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                </div>
+                <div class="col-md-1">
+                    <button type="button" id="resetBtn" class="btn btn-secondary">Reset</button>
+                </div>
+            </div>
+        </form>
+
+        <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#hoaDonModal">Thêm Hóa Đơn</button>
+
+        <table class="table mt-3">
+            <thead>
+            <tr>
+                <th>Mã hóa đơn</th>
+                <th>Ngày tạo</th>
+                <th>Tổng tiền</th>
+                <th>Trạng thái</th>
+                <th>Hành động</th>
+            </tr>
+            </thead>
+            <tbody id="hoaDonTableBody">
+            <tr th:each="hoaDon : ${listHoaDon}" th:attr="data-id=${hoaDon.id}">
+                <td th:text="${hoaDon.maHoaDon}"></td>
+                <td th:text="${hoaDon.ngayTao}"></td>
+                <td th:text="${hoaDon.tongTien}"></td>
+                <td th:text="${hoaDon.trangThai == 1 ? 'Đã thanh toán' : 'Chưa thanh toán'}"></td>
+                <td>
+                    <button class="btn btn-warning btn-sm edit-btn"
+                            th:attr="data-id=${hoaDon.id},
+                                     data-mahoa=${hoaDon.maHoaDon},
+                                     data-ngaytao=${hoaDon.ngayTao},
+                                     data-tongtien=${hoaDon.tongTien},
+                                     data-trangthai=${hoaDon.trangThai}"
+                            data-bs-toggle="modal" data-bs-target="#hoaDonModal">
+                        Sửa
+                    </button>
+                    <button class="btn btn-info btn-sm detail-btn" th:attr="data-id=${hoaDon.id}">Chi tiết</button>
+                    <button class="btn btn-danger btn-sm delete-btn" th:attr="data-id=${hoaDon.id}">Xóa</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div id="hoaDonDetail" style="display: none;">
+            <h3>Chi tiết Hóa Đơn</h3>
+            <p><strong>Mã hóa đơn:</strong> <span id="detailMaHoaDon"></span></p>
+            <p><strong>Ngày tạo:</strong> <span id="detailNgayTao"></span></p>
+            <p><strong>Tổng tiền:</strong> <span id="detailTongTien"></span></p>
+            <p><strong>Trạng thái:</strong> <span id="detailTrangThai"></span></p>
+            <button id="closeDetail" class="btn btn-secondary">Đóng</button>
+        </div>
+
+        <div id="error-message" style="color: red;"></div>
+    </div>
+</div>
+<script th:inline="javascript">
+    $(document).ready(function() {
+        // Nút mở modal thêm hóa đơn
+        $("#addBtn").click(function() {
+            $("#hoaDonModalLabel").text("Thêm Hóa Đơn");
+            $("#hoaDonForm")[0].reset();
+            $("#hoaDonId").val("");
+            $("#error-message").text("");
+            $("#saveHoaDon").data("action", "create");
+            $("#hoaDonModal").modal("show");
+        });
+
+        // Nút mở modal sửa hóa đơn
+        $(".edit-btn").click(function() {
+            $("#hoaDonModalLabel").text("Sửa Hóa Đơn");
+            $("#hoaDonId").val($(this).data("id"));
+            $("#maHoaDon").val($(this).data("mahoa"));
+            $("#ngayTao").val($(this).data("ngaytao"));
+            $("#tongTien").val($(this).data("tongtien"));
+            $("#trangThai").val($(this).data("trangthai"));
+            $("#error-message").text("");
+            $("#saveHoaDon").data("action", "update");
+            $("#hoaDonModal").modal("show");
+        });
+
+        // Nút lưu hóa đơn (thêm hoặc cập nhật)
+        $("#saveHoaDon").click(function() {
+            var action = $(this).data("action");
+            var url = (action === "create") ? "/hoa-don/add" : "/hoa-don/update/" + $("#hoaDonId").val();
+            var data = {
+                maHoaDon: $("#maHoaDon").val().trim(),
+                ngayTao: $("#ngayTao").val().trim(),
+                tongTien: parseFloat($("#tongTien").val()) || 0,
+                trangThai: $("#trangThai").val()
+            };
+
+            if (!data.maHoaDon) {
+                $("#error-message").text("Mã hóa đơn không được để trống.");
+                return;
+            }
+            if (data.tongTien <= 0) {
+                $("#error-message").text("Tổng tiền phải lớn hơn 0.");
+                return;
+            }
+
+            $("#saveHoaDon").prop("disabled", true).text("Đang lưu...");
+            $("#error-message").text("");
+
+            $.ajax({
+                url: url,
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function(response) {
+                    if (response.success) {
+                        location.reload();
+                    } else {
+                        $("#error-message").text(response.message || "Có lỗi xảy ra.");
+                    }
+                },
+                error: function(xhr) {
+                    var errorMsg = xhr.responseJSON ? xhr.responseJSON.message : "Lỗi không xác định";
+                    $("#error-message").text("Lỗi lưu hóa đơn: " + errorMsg);
+                },
+                complete: function() {
+                    $("#saveHoaDon").prop("disabled", false).text("Lưu");
+                }
+            });
+        });
+
+        // Nút Chi Tiết Hóa Đơn
+        $(".detail-btn").click(function() {
+            var row = $(this).closest("tr");
+            $("#detailMaHoaDon").text(row.find("td:eq(0)").text());
+            $("#detailNgayTao").text(row.find("td:eq(1)").text());
+            $("#detailTongTien").text(row.find("td:eq(2)").text());
+            $("#detailTrangThai").text(row.find("td:eq(3)").text());
+            $("#hoaDonDetail").show();
+        });
+
+        $("#closeDetail").click(function() {
+            $("#hoaDonDetail").hide();
+        });
+
+        // Nút Xóa Hóa Đơn
+        $(".delete-btn").click(function() {
+            var id = $(this).data("id");
+            if (confirm("Bạn có chắc chắn muốn xóa hóa đơn này?")) {
+                $.ajax({
+                    url: "/hoa-don/delete/" + id,
+                    type: "DELETE",
+                    success: function() {
+                        location.reload();
+                    },
+                    error: function(xhr) {
+                        $("#error-message").text("Lỗi xóa hóa đơn: " + (xhr.responseJSON ? xhr.responseJSON.message : "Lỗi không xác định"));
+                    }
+                });
+            }
+        });
+
+        // Nút Reset Tìm Kiếm
+        $("#resetBtn").click(function() {
+            $("#searchForm input, #searchForm select").val("");
+            $("#searchForm").submit();
+        });
+    });
+
+</script>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>Chính sách</h4>
+                <ul>
+                    <li><a href="#">Chính sách bảo mật</a></li>
+                    <li><a href="#">Điều khoản sử dụng</a></li>
+                    <li><a href="#">Hướng dẫn đổi trả</a></li>
+                    <li><a href="#">Cam kết chất lượng</a></li>
+                    <li><a href="#">Giao hàng & Nhận hàng</a></li>
+                    <li><a href="#">Đặt hàng & Thanh toán</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Hỗ trợ</h4>
+                <p>Hotline bán sỉ: 0904795885</p>
+                <p>Hotline hợp tác: 0904795885</p>
+                <p>Email: <a href="mailto:anhducfpoly2022@gmail.com">anhducfpoly2022@gmail.com</a></p>
+            </div>
+            <div class="footer-section">
+                <h4>Dịch vụ</h4>
+                <ul>
+                    <li><a href="#">Tư vấn đầu tư thể thao</a></li>
+                    <li><a href="#">Marketing dự án thể thao</a></li>
+                    <li><a href="#">Phần mềm quản lý thể thao</a></li>
+                    <li><a href="#">Quảng cáo trên sân thể thao</a></li>
+                    <li><a href="#">Dịch vụ đặt sân & Tìm đối</a></li>
+                    <li><a href="#">Phần mềm tổ chức giải đấu</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Cộng đồng</h4>
+                <ul class="social-icons">
+                    <li><a href="#">fb</a></li>
+                    <li><a href="#">X</a></li>
+                    <li><a href="#">yt</a></li>
+                    <li><a href="#">Pinterest</a></li>
+                    <li><a href="#">zalo</a></li>
+                    <li><a href="#">intar</a></li>
+                    <li><a href="#">tiktok</a></li>
+                    <li><a href="#">Gmap</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Copyright &copy;2025 Datsanbong 24/7</p>
+            <p>Website dat san bong cho moi loai the thao</p>
+            <p>Giấy chứng nhận đăng ký kinh doanh số: 0108207761</p>
+            <p>Do sở kế hoạch và đầu tư Thành phố Hà Nội cấp ngày: 30/02/2024</p>
+            <p><strong>Giao dịch an toàn</strong></p>
+        </div>
+    </footer>
+
+</body>
+</html>

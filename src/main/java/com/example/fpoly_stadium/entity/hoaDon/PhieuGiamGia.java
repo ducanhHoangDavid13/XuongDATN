@@ -3,7 +3,6 @@ package com.example.fpoly_stadium.entity.hoaDon;
 import com.example.fpoly_stadium.entity.CommonEntity;
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.Date;
 
 @Entity

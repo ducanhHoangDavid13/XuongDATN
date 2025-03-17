@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 @Entity
 @Data
@@ -16,7 +17,8 @@ import lombok.*;
 @Table(name = "phieu_giam_gia_chi_tiet")
 public class PhieuGiamGiaChiTiet extends CommonEntity {
     @ManyToOne
-    @JoinColumn(name = "id_khach_hang")
+    @JoinColumn(name = "id_khach_hang", nullable = false)
+    @NotNull(message = "Khách hàng không được để trống")
     private KhachHang khachHang;
 
     @ManyToOne

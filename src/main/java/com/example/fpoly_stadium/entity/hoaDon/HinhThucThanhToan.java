@@ -2,7 +2,12 @@ package com.example.fpoly_stadium.entity.hoaDon;
 
 import com.example.fpoly_stadium.entity.CommonEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
+
+import java.math.BigDecimal;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -11,14 +16,11 @@ import lombok.*;
 @Getter
 @Table(name = "hinh_thuc_thanh_toan")
 public class HinhThucThanhToan extends CommonEntity {
-    @ManyToOne
-    @JoinColumn(name = "id_hoa_don_chi_tiet")
-    private HoaDonChiTiet hoaDonChiTiet;
-
     @Column
     private String hinhThucThanhToan;
-
     @Column
-    private Double soTien;
+    @NotNull(message = "Số tiền không được để trống")
+    @DecimalMin(value = "0.0", message = "Số tiền phải lớn hơn hoặc bằng 0")
+    private BigDecimal soTien;
 
 }

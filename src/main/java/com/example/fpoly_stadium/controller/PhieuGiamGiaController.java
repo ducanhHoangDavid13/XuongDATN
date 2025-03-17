@@ -17,7 +17,7 @@ public class PhieuGiamGiaController {
     @Autowired
     PhieuGiamGiaRepository phieuGiamGiaRepository;
 
-    @GetMapping("/")
+    @GetMapping()
     public String hienThi(Model model) {
         List<PhieuGiamGia> list = phieuGiamGiaRepository.findAll();
         System.out.println(list);
