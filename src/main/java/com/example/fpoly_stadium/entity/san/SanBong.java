@@ -10,15 +10,25 @@ import lombok.*;
 @Setter
 @Getter
 @Table(name = "san_bong")
-public class SanBong extends CommonEntity {
-    @Column
+public class SanBong {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "dia_chi")
     private String diaChi;
 
-    @Column
+    @Column(name = "ten_san")
     private String tenSan;
 
+    @Column(name = "trang_thai")
+    private Integer trangThai;
+
     @ManyToOne
-    @JoinColumn(name = "id_loai_san")
+    @JoinColumn(name = "id_loai_san") // Ánh xạ khóa ngoại tới bảng loai_san
     private LoaiSan loaiSan;
 
+
 }
+

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sửa Sân Bóng</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-4">
+    <h2>Sửa Sân Bóng</h2>
+    <form th:action="@{/sanbong/sua/{id}(id=${sanBong.id})}" th:object="${sanBong}" method="post">
+        <div class="mb-3">
+            <label class="form-label">Tên Sân:</label>
+            <input type="text" class="form-control" th:field="*{tenSan}" placeholder="Nhập tên sân" required>
+            <div class="text-danger" th:if="${#fields.hasErrors('tenSan')}" th:errors="*{tenSan}"></div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Địa Chỉ:</label>
+            <input type="text" class="form-control" th:field="*{diaChi}" placeholder="Nhập địa chỉ" required>
+            <div class="text-danger" th:if="${#fields.hasErrors('diaChi')}" th:errors="*{diaChi}"></div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Trạng Thái:</label>
+            <select class="form-select" th:field="*{trangThai}">
+                <option value="1">Hoạt động</option>
+                <option value="0">Không hoạt động</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Lưu</button>
+        <a href="/sanbong" class="btn btn-secondary">Hủy</a>
+    </form>
+</div>
+</body>
+</html>

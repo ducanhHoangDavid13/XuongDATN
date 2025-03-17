@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách sân bóng</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #121212;
+            color: #fff;
+        }
+        .card {
+            background-color: #1e1e1e;
+            border-radius: 10px;
+        }
+        .card img {
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        .card-title a {
+            color: #4facfe;
+            text-decoration: none;
+        }
+        footer {
+            background-color: #1e1e1e;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .footer-section {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px;
+        }
+        .footer-bottom {
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand" href="#"><i class="bi bi-house-door"></i> Đặt Sân Thực Tập</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-house"></i> Trang chủ</a></li>
+                <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-list"></i> Danh sách sân bãi</a></li>
+                <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-info-circle"></i> Giới thiệu</a></li>
+                <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-envelope"></i> Liên hệ</a></li>
+                <li class="nav-item"><a class="btn btn-warning" href="#">Đặt lịch dùng thử</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-3">
+            <h5>Danh sách sân bãi</h5>
+            <ul class="list-group">
+                <li class="list-group-item bg-dark text-white">Bóng đá <span class="badge bg-primary">0</span></li>
+                <li class="list-group-item bg-dark text-white">Pickleball <span class="badge bg-primary">2</span></li>
+                <li class="list-group-item bg-dark text-white">Bóng chuyền <span class="badge bg-primary">0</span></li>
+                <li class="list-group-item bg-dark text-white">Cầu lông <span class="badge bg-primary">0</span></li>
+            </ul>
+        </div>
+
+        <div class="col-md-9">
+            <h3 class="text-center">Danh sách sân bãi</h3>
+            <a href="/sanbong/them" class="btn btn-success mb-3">Thêm Sân Mới</a>
+            <form th:action="@{/sanbong}" method="get" class="d-flex mb-3">
+                <input type="text" name="keyword" class="form-control me-2" th:value="${keyword}" placeholder="Nhập tên sân...">
+                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+            </form>
+
+            <div class="row">
+                <div class="col-md-4" th:each="sanBong : ${sanBongs}">
+                    <div class="card mb-3">
+                        <img th:src="@{/images/img_1.png}" class="card-img-top" alt="Sân bóng">
+                        <div class="card-body">
+                            <h5 class="card-title"><a th:href="@{/sanbong/{id}(id=${sanBong.id})}" th:text="${sanBong.tenSan}"></a></h5>
+                            <p><i class="bi bi-geo-alt"></i> <span th:text="${sanBong.diaChi}"></span></p>
+                            <p><strong>Trạng thái:</strong>
+                                <span th:text="${sanBong.trangThai == 1 ? 'Hoạt động' : 'KHÔNG hoạt động'}" class="badge"
+                                      th:classappend="${sanBong.trangThai == 1 ? 'bg-success' : 'bg-danger'}"></span>
+                            </p>
+                            <a th:href="@{/sanbong/{id}(id=${sanBong.id})}" class="btn btn-primary">Chi tiết</a>
+                            <a th:href="@{/sanbong/sua/{id}(id=${sanBong.id})}" class="btn btn-warning">Sửa</a>
+                            <a th:href="@{/sanbong/xoa/{id}(id=${sanBong.id})}" class="btn btn-danger"
+                               onclick="return confirm('Bạn có chắc chắn muốn xóa?');">Xóa</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-container">
+        <div class="footer-section">
+            <h4>Chính sách</h4>
+            <ul>
+                <li><a href="#">Chính sách bảo mật</a></li>
+                <li><a href="#">Điều khoản sử dụng</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4>Hỗ trợ</h4>
+            <p>Hotline: 0904795885</p>
+            <p>Email: <a href="mailto:anhducfpoly2022@gmail.com">anhducfpoly2022@gmail.com</a></p>
+        </div>
+        <div class="footer-section">
+            <h4>Cộng đồng</h4>
+            <ul>
+                <li><a href="#">Facebook</a></li>
+                <li><a href="#">TikTok</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2025 Đặt Sân Bóng 24/7 | Đặt sân mọi loại thể thao</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
