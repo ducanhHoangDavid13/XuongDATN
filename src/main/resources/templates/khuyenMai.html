@@ -45,7 +45,7 @@
                     <td th:text="${p.ngayBatDau}"></td>
                     <td th:text="${p.ngayKetThuc}"></td>
                     <td th:text="${p.ghiChu}"></td>
-                    <td th:text="${p.trangThai}"></td>
+                    <td th:text="${p.trangThai?'hoạt động':'không hoạt động'}"></td>
                     <td>
                         <button type="button" th:attr="data-id=${p.id}" value="update" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pgModal" onclick="openModal(this)">
                             <i class="fa fa-pencil-alt"></i>
@@ -111,8 +111,8 @@
 
                                         <label class="lb-form">Trạng thái</label>
                                         <select id="trang_thai" class="form-control" required>
-                                            <option value="Hoạt động">Hoạt động</option>
-                                            <option value="Không hoạt động">Không hoạt động</option>
+                                            <option value="1">Hoạt động</option>
+                                            <option value="0">Không hoạt động</option>
                                         </select>
                                     </div>
                                 </div>

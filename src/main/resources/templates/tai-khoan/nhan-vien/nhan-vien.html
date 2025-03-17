@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản Lý Nhân Viên</title>
+    <head th:replace="navbar/thuVien :: thuvien"></head>
+    <link rel="stylesheet" type="text/css" href="/static/sttyle.css">
+</head>
+<body>
+<div th:replace="navbar/navadmin :: header"></div>
+<div class="d-flex">
+    <div th:replace="navbar/navadmin :: navbar"></div>
+    <div class="pt-3" style="width: calc(100% - 250px);">
+        <div class="container">
+            <h2 style="text-align: center;">Quản Lý Nhân Viên</h2>
+
+            <div class="mb-3 d-flex">
+                <div class="me-3">
+                    <label for="filterStatus" class="form-label">Lọc theo trạng thái:</label>
+                    <select id="filterStatus" class="form-select" onchange="filterNhanVien()">
+                        <option value="">Tất cả</option>
+                        <option value="1">Hoạt động</option>
+                        <option value="0">Không hoạt động</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Nút thêm nhân viên -->
+            <button class="btn btn-success" onclick="clearForm()" data-bs-toggle="modal"
+                    data-bs-target="#nhanVienModal">
+                <i class="fas fa-user-plus"></i> Thêm Nhân Viên
+            </button>
+
+            <!-- Bảng danh sách nhân viên -->
+            <table class="table table-bordered mt-3">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Mã NV</th>
+                    <th>Tên</th>
+                    <th>Email</th>
+                    <th>Giới tính</th>
+                    <th>SĐT</th>
+                    <th>Địa chỉ</th>
+                    <th>Trạng thái</th>
+                    <th>Hành động</th>
+                </tr>
+                </thead>
+                <tbody id="nhanVienTable">
+                <tr th:each="nv : ${nhanViens}" th:data-status="${nv.trangThai}" th:data-name="${nv.tenNhanVien}">
+                    <td th:text="${nv.id}"></td>
+                    <td th:text="${nv.maNhanVien}"></td>
+                    <td th:text="${nv.tenNhanVien}"></td>
+                    <td th:text="${nv.email}"></td>
+                    <td th:text="${nv.gioiTinh} ? 'Nam' : 'Nữ'"></td>
+                    <td th:text="${nv.sdt}"></td>
+                    <td th:text="${nv.diaChi}"></td>
+                    <td>
+                        <span th:classappend="${nv.trangThai == 1} ? 'badge bg-success' : 'badge bg-danger'"
+                              th:text="${nv.trangThai == 1} ? 'Hoạt động' : 'Không hoạt động'"></span>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" onclick="editNhanVien(this)" th:data-id="${nv.id}"
+                                data-bs-toggle="modal" data-bs-target="#nhanVienModal">
+                            <i class="fas fa-edit"></i> Sửa
+                        </button>
+                        <a th:href="@{/nhan-vien/delete/{id}(id=${nv.id})}" class="btn btn-danger btn-sm"
+                           onclick="return confirm('Xóa nhân viên này?')">
+                            <i class="fas fa-trash"></i> Xóa
+                        </a>
+                        <a th:href="@{/nhan-vien/updateStatus/{id}/{status}(id=${nv.id}, status=${nv.trangThai == 1 ? 0 : 1})}"
+                           class="btn btn-warning btn-sm">
+                            <i class="fas fa-sync-alt"></i> Đổi trạng thái
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Modal Thêm/Sửa Nhân Viên -->
+        <div class="modal fade" id="nhanVienModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLabel">Thêm / Sửa Nhân Viên</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="nhanVienForm" th:action="@{/nhan-vien/save}" method="post" th:object="${nhanVien}">
+                            <input type="hidden" id="id" name="id" th:field="*{id}">
+                            <input type="hidden" id="trangThai" name="trangThai" th:value="1" th:field="*{trangThai}">
+
+                            <div class="mb-3">
+                                <label>Mã Nhân Viên</label>
+                                <input type="text" id="maNhanVien" name="maNhanVien" class="form-control"
+                                       th:field="*{maNhanVien}" required>
+                                <div th:if="${#fields.hasErrors('maNhanVien')}" class="invalid-feedback"
+                                     th:errors="*{maNhanVien}">Mã nhân viên không hợp lệ
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label>Tên Nhân Viên</label>
+                                <input type="text" id="tenNhanVien" name="tenNhanVien" class="form-control"
+                                       th:field="*{tenNhanVien}" required>
+                                <div th:if="${#fields.hasErrors('tenNhanVien')}" class="invalid-feedback"
+                                     th:errors="*{tenNhanVien}">Tên nhân viên không hợp lệ
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label>Email</label>
+                                <input type="email" id="email" name="email" class="form-control" th:field="*{email}"
+                                       required>
+                                <div th:if="${#fields.hasErrors('email')}" class="invalid-feedback"
+                                     th:errors="*{email}">Email không hợp lệ
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label>Giới tính</label>
+                                <select id="gioiTinh" name="gioiTinh" class="form-control" th:field="*{gioiTinh}">
+                                    <option value="true" th:selected="${gioiTinh}">Nam</option>
+                                    <option value="false" th:selected="${gioiTinh} == false">Nữ</option>
+                                </select>
+
+                            </div>
+
+                            <div class="mb-3">
+                                <label>Số điện thoại</label>
+                                <input type="text" id="sdt" name="sdt" class="form-control" th:field="*{sdt}" required>
+                                <div th:if="${#fields.hasErrors('sdt')}" class="invalid-feedback" th:errors="*{sdt}">Số
+                                    điện thoại không hợp lệ
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label>Địa chỉ</label>
+                                <input type="text" id="diaChi" name="diaChi" class="form-control" th:field="*{diaChi}"
+                                       required>
+                                <div th:if="${#fields.hasErrors('diaChi')}" class="invalid-feedback"
+                                     th:errors="*{diaChi}">Địa chỉ không hợp lệ
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label>Mật khẩu</label>
+                                <input type="password" id="password" name="password" class="form-control"
+                                       th:field="*{matKhau}">
+                                <div th:if="${#fields.hasErrors('matKhau')}" class="invalid-feedback"
+                                     th:errors="*{matKhau}">Mật khẩu không hợp lệ
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save"></i> Lưu
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#nhanVienTable').parent('table').DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/vi.json'
+            },
+            columns: [
+                {data: 'id'},
+                {data: 'maNhanVien'},
+                {data: 'tenNhanVien'},
+                {data: 'email'},
+                {data: 'gioiTinh'},
+                {data: 'sdt'},
+                {data: 'diaChi'},
+                {data: 'trangThai'},
+                {data: 'actions', orderable: false}
+            ]
+        });
+    });
+</script>
+</body>
+</html>
+<script>
+    function clearForm() {
+        $("#nhanVienForm")[0].reset();
+        $("#id").val('');
+        $("#trangThai").val('1');
+        $(".invalid-feedback").hide(); // ẩn thông báo lỗi
+        $(".form-control").removeClass("is-invalid"); // xóa lớp is-invalid
+    }
+
+    function editNhanVien(button) {
+        var id = $(button).data("id");
+        $.get("/nhan-vien/edit/" + id, function (data) {
+            $("#id").val(data.id);
+            $("#maNhanVien").val(data.maNhanVien);
+            $("#tenNhanVien").val(data.tenNhanVien);
+            $("#email").val(data.email);
+            $("#gioiTinh").val(data.gioiTinh.toString());
+            $("#sdt").val(data.sdt);
+            $("#diaChi").val(data.diaChi);
+            $("#password").val(data.matKhau);
+            $("#trangThai").val(data.trangThai);
+        });
+    }
+
+    //validate======================
+    $('#nhanVienForm').validate({
+        rules: {
+            maNhanVien: {
+                required: true,
+                minlength: 3
+            },
+            email: {
+                required: true,
+                email: true
+            },
+            sdt: {
+                required: true,
+                pattern: /^(0|\\+84)[0-9]{9}$/
+            }
+        },
+        messages: {
+            maNhanVien: {
+                required: "Vui lòng nhập mã nhân viên",
+                minlength: "Mã nhân viên phải có ít nhất 3 ký tự"
+            },
+            email: {
+                required: "Vui lòng nhập email",
+                email: "Email không hợp lệ"
+            },
+            sdt: {
+                required: "Vui lòng nhập số điện thoại",
+                pattern: "Số điện thoại không hợp lệ"
+            }
+        }
+    });
+    // Sử dụng AJAX để gửi form và hiển thị lỗi
+    $(document).ready(function () {
+        $('#nhanVienForm').on('submit', function (event) {
+            event.preventDefault();
+            var form = $(this);
+            $.ajax({
+                url: form.attr('action'),
+                method: form.attr('method'),
+                data: form.serialize(),
+                success: function (response) {
+                    // Cập nhật nội dung modal nếu có lỗi
+                    if ($(response).find('.invalid-feedback').length > 0) {
+                        $('#nhanVienModal .modal-body').html($(response).find('.modal-body').html());
+                    } else {
+                        window.location.reload();
+                    }
+                },
+                error: function () {
+                    alert('Đã xảy ra lỗi. Vui lòng thử lại.');
+                }
+            });
+        });
+
+        // Khi modal đóng, không reset form
+        $('#nhanVienModal').on('hidden.bs.modal', function () {
+            clearForm();
+        });
+
+        // Khi modal mở, không reset form nếu có lỗi
+        $('#nhanVienModal').on('shown.bs.modal', function () {
+            if ($('#nhanVienForm .invalid-feedback').length > 0) {
+                $('#nhanVienModal').modal('show');
+            }
+        });
+    });
+</script>

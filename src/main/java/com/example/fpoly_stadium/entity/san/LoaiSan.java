@@ -1,9 +1,6 @@
 package com.example.fpoly_stadium.entity.san;
 
-import com.example.fpoly_stadium.entity.CommonEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 @Entity
 @Data
@@ -12,7 +9,16 @@ import lombok.*;
 @Setter
 @Getter
 @Table(name = "loai_san")
-public class LoaiSan extends CommonEntity {
-    @Column
+public class LoaiSan {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "ten_loai_san")
     private String tenLoaiSan;
+
+    @Column(name = "trang_thai")
+    private Integer trangThai;
 }
+

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý khách hàng</title>
+    <head th:replace="navbar/thuVien :: thuvien"></head>
+    <link rel="stylesheet" type="text/css" href="/static/sttyle.css">
+</head>
+<div th:replace="navbar/navadmin :: header"></div>
+<div class="d-flex">
+    <div th:replace="navbar/navadmin :: navbar"></div>
+    <div class="pt-3" style="width: calc(100% - 250px);">
+        <div class="container">
+            <h2 style="text-align: center;">Danh sách khách hàng</h2>
+            <!-- Form tìm kiếm -->
+            <form method="get" action="/khach-hang" class="form-inline mb-3">
+                <input type="text" name="search" class="form-control mr-2" placeholder="Tìm kiếm theo tên hoặc email"/>
+                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+            </form>
+
+            <!-- Form lọc giới tính -->
+            <form method="get" action="/khach-hang" class="form-inline mb-3">
+                <select name="gender" class="form-control mr-2">
+                    <option value="">-- Chọn giới tính --</option>
+                    <option value="true">Nam</option>
+                    <option value="false">Nữ</option>
+                </select>
+                <button type="submit" class="btn btn-info">Lọc</button>
+            </form>
+
+            <a href="/khach-hang/new" class="btn btn-success mb-3">Thêm khách hàng</a>
+
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Mã KH</th>
+                    <th>Họ và tên</th>
+                    <th>Email</th>
+                    <th>Giới tính</th>
+                    <th>Số điện thoại</th>
+                    <th>Hành động</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="customer : ${customers}">
+                    <td th:text="${customer.id}"></td>
+                    <td th:text="${customer.maKhachHang}"></td>
+                    <td th:text="${customer.hoVaTen}"></td>
+                    <td th:text="${customer.email}"></td>
+                    <td th:text="${customer.gioiTinh} ? 'Nam' : 'Nữ'"></td>
+                    <td th:text="${customer.soDienThoai}"></td>
+                    <td>
+                        <a th:href="@{/khach-hang/edit/{id}(id=${customer.id})}" class="btn btn-warning btn-sm">Sửa</a>
+                        <a th:href="@{/khach-hang/delete/{id}(id=${customer.id})}" class="btn btn-danger btn-sm"
+                           onclick="return confirm('Xóa khách hàng này?')">Xóa</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $('#customerTable').DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.11.5/i18n/vi.json'
+            },
+            pageLength: 10,
+            responsive: true,
+            ordering: true,
+            // Thêm columns để sort/filter đúng
+            columns: [
+                {data: 'id'},
+                {data: 'maKhachHang'},
+                {data: 'hoVaTen'},
+                {data: 'email'},
+                {data: 'gioiTinh'},
+                {data: 'soDienThoai'},
+                {data: null, orderable: false} // cột action không sort
+            ]
+        });
+    });
+</script>
+</body>
+</html>

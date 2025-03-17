@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách sân bóng</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Danh sách sân bóng</h2>
+
+    <a href="/san-bong/them-moi" class="btn btn-primary mb-3">Thêm sân bóng</a>
+
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Tên sân</th>
+            <th>Địa chỉ</th>
+            <th>Loại sân</th>
+            <th>Trạng thái</th>
+            <th>Hành động</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="sanBong : ${sanBongs}">
+            <td th:text="${sanBong.id}"></td>
+            <td th:text="${sanBong.tenSan}"></td>
+            <td th:text="${sanBong.diaChi}"></td>
+            <td th:text="${sanBong.loaiSan.tenLoaiSan}"></td>
+            <td>
+                <span th:if="${sanBong.trangThai == 1}" class="badge bg-success">Hoạt động</span>
+                <span th:if="${sanBong.trangThai == 0}" class="badge bg-danger">Ngừng hoạt động</span>
+            </td>
+            <td>
+                <a th:href="@{/san-bong/chinh-sua/{id}(id=${sanBong.id})}" class="btn btn-warning btn-sm">Sửa</a>
+                <a th:href="@{/san-bong/xoa/{id}(id=${sanBong.id})}" class="btn btn-danger btn-sm"
+                   onclick="return confirm('Bạn có chắc chắn muốn xóa?');">Xóa</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="footer-bottom">
+        <p>Copyright &copy;2025 Datsanbong 24/7</p>
+        <p>Website dat san bong cho moi loai the thao</p>
+        <p>Giấy chứng nhận đăng ký kinh doanh số: 0108207761</p>
+        <p>Do sở kế hoạch và đầu tư Thành phố Hà Nội cấp ngày: 30/02/2024</p>
+        <p><strong>Giao dịch an toàn</strong></p>
+    </div>
+</div>
+<footer>
+    <div class="footer-container">
+        <div class="footer-section">
+            <h4>Chính sách</h4>
+            <ul>
+                <li><a href="#">Chính sách bảo mật</a></li>
+                <li><a href="#">Điều khoản sử dụng</a></li>
+                <li><a href="#">Hướng dẫn đổi trả</a></li>
+                <li><a href="#">Cam kết chất lượng</a></li>
+                <li><a href="#">Giao hàng & Nhận hàng</a></li>
+                <li><a href="#">Đặt hàng & Thanh toán</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4>Hỗ trợ</h4>
+            <p>Hotline bán sỉ: 0904795885</p>
+            <p>Hotline hợp tác: 0904795885</p>
+            <p>Email: <a href="mailto:anhducfpoly2022@gmail.com">anhducfpoly2022@gmail.com</a></p>
+        </div>
+        <div class="footer-section">
+            <h4>Dịch vụ</h4>
+            <ul>
+                <li><a href="#">Tư vấn đầu tư thể thao</a></li>
+                <li><a href="#">Marketing dự án thể thao</a></li>
+                <li><a href="#">Phần mềm quản lý thể thao</a></li>
+                <li><a href="#">Quảng cáo trên sân thể thao</a></li>
+                <li><a href="#">Dịch vụ đặt sân & Tìm đối</a></li>
+                <li><a href="#">Phần mềm tổ chức giải đấu</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4>Cộng đồng</h4>
+            <ul class="social-icons">
+                <li><a href="#">fb</a></li>
+                <li><a href="#">X</a></li>
+                <li><a href="#">yt</a></li>
+                <li><a href="#">Pinterest</a></li>
+                <li><a href="#">zalo</a></li>
+                <li><a href="#">intar</a></li>
+                <li><a href="#">tiktok</a></li>
+                <li><a href="#">Gmap</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>Copyright &copy;2025 Datsanbong 24/7</p>
+        <p>Website dat san bong cho moi loai the thao</p>
+        <p>Giấy chứng nhận đăng ký kinh doanh số: 0108207761</p>
+        <p>Do sở kế hoạch và đầu tư Thành phố Hà Nội cấp ngày: 30/02/2024</p>
+        <p><strong>Giao dịch an toàn</strong></p>
+    </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
