@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface HoaDonChiTietRepository extends JpaRepository<HoaDonChiTiet, Integer> {
+public interface    HoaDonChiTietRepository extends JpaRepository<HoaDonChiTiet, Integer> {
     List<HoaDonChiTiet> findByHoaDon(HoaDon hoaDon);
 
     // Lọc theo tên khách hàng

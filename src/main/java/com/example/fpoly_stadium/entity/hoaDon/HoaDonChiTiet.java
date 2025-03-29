@@ -55,6 +55,6 @@ public class HoaDonChiTiet extends CommonEntity {
     // Thêm trường trang_thai nếu cần (dựa trên bảng)
     @Column(name = "trang_thai")
     @NotNull(message = "Trạng thái không được để trống")
-    private Integer trangThai;
+    private Boolean trangThai;
 
 }

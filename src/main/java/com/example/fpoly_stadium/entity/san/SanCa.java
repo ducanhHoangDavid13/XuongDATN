@@ -12,18 +12,14 @@ import lombok.*;
 @Table(name = "san_ca")
 public class SanCa extends CommonEntity {
     @ManyToOne
-    @JoinColumn(name = "id_ca")
-    private Ca ca;
-
-    @ManyToOne
     @JoinColumn(name = "ngay_trong_tuan")
     private NgayTrongTuan ngayTrongTuan;
 
     @ManyToOne
     @JoinColumn(name = "id_san_bong")
     private SanBong sanBong;
-
     @Column
     private Double gia;
-
+    @Column(nullable = false)
+    private Boolean trangThai = true;  // Trạng thái của sân trong ca này (true = Trống, false = Đã đặt)
 }

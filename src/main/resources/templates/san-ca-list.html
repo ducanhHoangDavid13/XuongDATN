@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Danh Sách Sân Ca</title>
+
+  <!-- Link tới Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome (Icon) -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container mt-5">
+  <h2>Danh Sách Sân Ca</h2>
+
+  <!-- Nút thêm mới SanCa -->
+  <button class="btn btn-primary" data-toggle="modal" data-target="#sanCaModal">Thêm Mới Sân Ca</button>
+
+  <table class="table table-bordered mt-3">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Thời Gian Bắt Đầu</th>
+      <th>Sân Bóng</th>
+      <th>Giá</th>
+      <th>Trạng Thái</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="sanCa : ${sanCas}">
+      <td th:text="${sanCa.id}"></td>
+      <td th:text="${sanCa.thoiGianBatDau}"></td>
+      <td th:text="${sanCa.sanBong.tenSanBong}"></td>
+      <td th:text="${sanCa.gia}"></td>
+      <td th:text="${sanCa.trangThai ? 'Trống' : 'Đã Đặt'}"></td>
+      <td>
+        <!-- Các nút để mở modal cho việc chỉnh sửa hoặc xem chi tiết -->
+        <button class="btn btn-warning" data-toggle="modal" data-target="#sanCaModal" th:attr="data-id='${sanCa.id}'" onclick="openModalForEdit(this)">
+          <i class="fas fa-edit"></i> Chỉnh sửa
+        </button>
+        <button class="btn btn-danger" th:href="@{'/san-ca/delete/' + ${sanCa.id}}">
+          <i class="fas fa-trash-alt"></i> Xóa
+        </button>
+        <a class="btn btn-info" th:href="@{'/san-ca/' + ${sanCa.id}}">Chi tiết</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal Form -->
+<div class="modal fade" id="sanCaModal" tabindex="-1" role="dialog" aria-labelledby="sanCaModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="sanCaModalLabel">Thêm / Chỉnh sửa Sân Ca</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="#" th:action="@{/san-ca/add}" th:object="${sanCa}" method="post">
+          <div class="form-group">
+            <label for="thoiGianBatDau">Thời gian bắt đầu:</label>
+            <input type="datetime-local" id="thoiGianBatDau" name="thoiGianBatDau" th:field="*{thoiGianBatDau}" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="thoiGianKetThuc">Thời gian kết thúc:</label>
+            <input type="datetime-local" id="thoiGianKetThuc" name="thoiGianKetThuc" th:field="*{thoiGianKetThuc}" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="gia">Giá:</label>
+            <input type="number" id="gia" name="gia" th:field="*{gia}" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="sanBong">Sân Bóng:</label>
+            <select name="sanBong" th:field="*{sanBong}" class="form-control" required>
+              <!-- Giả sử bạn có danh sách sân bóng từ model -->
+              <option th:each="sanBong : ${sanBongs}" th:value="${sanBong.id}" th:text="${sanBong.tenSanBong}"></option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Lưu</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Mở modal để chỉnh sửa thông tin của một SanCa
+  function openModalForEdit(button) {
+    let sanCaId = button.getAttribute('data-id');
+  }
+</script>
+
+</body>
+</html>

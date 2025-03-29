@@ -5,6 +5,9 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.*;
+
+import java.util.Date;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -14,6 +17,5 @@ import lombok.*;
 @Table(name = "ngay_trong_tuan")
 public class NgayTrongTuan extends CommonEntity {
     @Column
-    private String thuTrongTuan;
-
+    private Date thuTrongTuan;
 }
