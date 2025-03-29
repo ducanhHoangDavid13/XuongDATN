@@ -8,6 +8,10 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -41,7 +45,7 @@ public class HoaDonChiTiet extends CommonEntity {
     @Column(name = "ngay_den_san")
     @NotNull(message = "Ngày đến sân không được để trống")
     @Min(value = 1, message = "Ngày đến sân phải lớn hơn hoặc bằng 1")
-    private Integer ngayDenSan;
+    private LocalDateTime ngayDenSan;
 
     @Column(name = "tien_giam_gia")
     @NotNull(message = "Tiền giảm giá không được để trống")

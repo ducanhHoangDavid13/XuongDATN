@@ -15,6 +15,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HexFormat;
@@ -71,7 +72,7 @@ public class BanHangController {
 
     // Thêm sân ca vào hóa đơn
     @Transactional
-    public HoaDonChiTiet themSanCaVaoHoaDon(Integer hoaDonId, Integer sanCaId, Integer ngayDenSan) {
+    public HoaDonChiTiet themSanCaVaoHoaDon(Integer hoaDonId, Integer sanCaId, LocalDateTime ngayDenSan) {
         HoaDon hoaDon = hoaDonRepository.findById(hoaDonId)
                 .orElseThrow(() -> new RuntimeException("Hóa đơn không tồn tại"));
         SanCa sanCa = sanCaRepository.findById(sanCaId)

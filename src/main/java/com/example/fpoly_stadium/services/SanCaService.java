@@ -1,5 +1,6 @@
 package com.example.fpoly_stadium.services;
 
+import com.example.fpoly_stadium.entity.san.NgayTrongTuan;
 import com.example.fpoly_stadium.entity.san.SanBong;
 import com.example.fpoly_stadium.entity.san.SanCa;
 import com.example.fpoly_stadium.repository.SanCaRepository;
@@ -25,7 +26,7 @@ public class SanCaService {
     }
 
     // Lấy SanCa theo ngày trong tuần
-    public List<SanCa> getSanCasByNgayTrongTuan(String ngayTrongTuan) {
+    public List<SanCa> getSanCasByNgayTrongTuan(NgayTrongTuan ngayTrongTuan) {
         return sanCaRepository.findByNgayTrongTuan(ngayTrongTuan);
     }
 
@@ -45,7 +46,7 @@ public class SanCaService {
     }
 
     // Kiểm tra xem SanCa có trống không
-    public boolean checkSanCaAvailability(Long sanBongId, String ngayTrongTuan) {
+    public boolean checkSanCaAvailability(Long sanBongId, NgayTrongTuan ngayTrongTuan) {
         List<SanCa> sanCas = sanCaRepository.findByNgayTrongTuan(ngayTrongTuan);
         for (SanCa sanCa : sanCas) {
             if (sanCa.getSanBong().getId().equals(sanBongId) && sanCa.getTrangThai()) {

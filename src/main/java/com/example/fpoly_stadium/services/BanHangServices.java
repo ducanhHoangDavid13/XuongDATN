@@ -73,7 +73,7 @@
 
             // Thêm sân ca vào hóa đơn
             @Transactional
-            public HoaDonChiTiet themSanCaVaoHoaDon(Integer hoaDonId, Integer sanCaId, Integer ngayDenSan) {
+            public HoaDonChiTiet themSanCaVaoHoaDon(Integer hoaDonId, Integer sanCaId, LocalDateTime ngayDenSan) {
                 HoaDon hoaDon = hoaDonRepository.findById(hoaDonId)
                         .orElseThrow(() -> new RuntimeException("Hóa đơn không tồn tại"));
                 SanCa sanCa = sanCaRepository.findById(sanCaId)

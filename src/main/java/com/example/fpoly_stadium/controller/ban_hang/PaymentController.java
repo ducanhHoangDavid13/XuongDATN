@@ -14,8 +14,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/ban-hang")
@@ -47,8 +49,6 @@ private HoaDonServices hoaDonServices;
             chiTietList = hoaDonChiTietRepository.findByTenKhachHang(tenKhachHang);
         } else if (tenNhanVien != null && !tenNhanVien.isEmpty()) {
             chiTietList = hoaDonChiTietRepository.findByTenNhanVien(tenNhanVien);
-        } else if (tenCa != null && !tenCa.isEmpty()) {
-            chiTietList = hoaDonChiTietRepository.findByTenCa(tenCa);
         } else {
             chiTietList = hoaDonChiTietRepository.findAll();
         }
@@ -67,11 +67,10 @@ private HoaDonServices hoaDonServices;
                                @RequestParam Integer khachHangId,
                                Model model) {
         HoaDon hoaDon = banHangService.taoHoaDonCho(nhanVienId, khachHangId);
-        List<HoaDonChiTiet> chiTietList = hoaDonChiTietRepository.findByHoaDon(hoaDon);
         if (hoaDon == null) {
             throw new RuntimeException("Không thể tạo hóa đơn.");
         }
-
+        List<HoaDonChiTiet> chiTietList = hoaDonChiTietRepository.findByHoaDon(hoaDon);
         model.addAttribute("hoaDon", hoaDon);
         model.addAttribute("chiTietList", chiTietList);
         model.addAttribute("sanCaList", sanCaRepository.findAll());
@@ -82,7 +81,7 @@ private HoaDonServices hoaDonServices;
     @PostMapping("/them-san-ca")
     public String themSanCa(@RequestParam Integer hoaDonId,
                             @RequestParam Integer sanCaId,
-                            @RequestParam Integer ngayDenSan,
+                            @RequestParam LocalDateTime ngayDenSan,
                             Model model) {
         banHangService.themSanCaVaoHoaDon(hoaDonId, sanCaId, ngayDenSan);
         HoaDon hoaDon = banHangService.xemHoaDon(hoaDonId);
@@ -107,6 +106,7 @@ private HoaDonServices hoaDonServices;
             return "ket-qua-thanh-toan";
         }
     }
+
     @GetMapping("/vnpay-return")
     public String vnpayReturn(@RequestParam Map<String, String> params, RedirectAttributes redirectAttributes) throws Exception {
         boolean success = vnPayServices.verifyPayment(params);
@@ -119,9 +119,13 @@ private HoaDonServices hoaDonServices;
             }
 
             Integer hoaDonId = Integer.valueOf(txnRef);
-            HoaDon hoaDon = hoaDonRepository.findById(hoaDonId)
-                    .orElseThrow(() -> new RuntimeException("Hóa đơn không tồn tại"));
+            Optional<HoaDon> hoaDonOptional = hoaDonRepository.findById(hoaDonId);
+            if (!hoaDonOptional.isPresent()) {
+                redirectAttributes.addFlashAttribute("error", "Hóa đơn không tồn tại");
+                return "redirect:/ban-hang";
+            }
 
+            HoaDon hoaDon = hoaDonOptional.get();
             hoaDon.setTrangThai(1); // Đánh dấu là đã thanh toán
             hoaDonRepository.save(hoaDon);
 
@@ -132,6 +136,5 @@ private HoaDonServices hoaDonServices;
 
         return "redirect:/ban-hang";
     }
-
 
 }

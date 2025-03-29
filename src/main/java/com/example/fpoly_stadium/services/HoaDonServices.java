@@ -88,7 +88,7 @@ public class HoaDonServices {
 
     // Tìm hóa đơn theo nhân viên
     public List<HoaDon> findByNhanVien(String tenNhanVien) {
-        return hoaDonRepository.findByNhanVien_HoVaTenContainingIgnoreCase(tenNhanVien);
+        return hoaDonRepository.findByNhanVien_TenNhanVienContainingIgnoreCase(tenNhanVien);
     }
 
     // Lọc hóa đơn theo mã, ngày tạo, tổng tiền, trạng thái
@@ -104,7 +104,7 @@ public class HoaDonServices {
             return hoaDonRepository.findByKhachHang_HoVaTenContainingIgnoreCase(tenKhachHang);
         }
         if (tenNhanVien != null && !tenNhanVien.trim().isEmpty()) {
-            return hoaDonRepository.findByNhanVien_HoVaTenContainingIgnoreCase(tenNhanVien);
+            return hoaDonRepository.findByNhanVien_TenNhanVienContainingIgnoreCase(tenNhanVien);
         }
         if (startDate != null && endDate != null) {
             return hoaDonRepository.findByNgayTaoBetween(startDate, endDate);

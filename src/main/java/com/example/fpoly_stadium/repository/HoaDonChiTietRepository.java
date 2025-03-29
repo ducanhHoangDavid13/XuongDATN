@@ -21,8 +21,7 @@ public interface    HoaDonChiTietRepository extends JpaRepository<HoaDonChiTiet,
     @Query("SELECT hdc FROM HoaDonChiTiet hdc WHERE hdc.hoaDon.nhanVien.tenNhanVien LIKE %:tenNhanVien%")
     List<HoaDonChiTiet> findByTenNhanVien(@Param("tenNhanVien") String tenNhanVien);
 
-    // Lọc theo tên ca sân
-    @Query("SELECT hdc FROM HoaDonChiTiet hdc WHERE hdc.sanCa.ca.tenCa LIKE %:tenCa%")
-    List<HoaDonChiTiet> findByTenCa(@Param("tenCa") String tenCa);
+//     Lọc theo tên ca sân
+
 }
 

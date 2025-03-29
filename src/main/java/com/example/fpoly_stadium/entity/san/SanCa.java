@@ -20,6 +20,6 @@ public class SanCa extends CommonEntity {
     private SanBong sanBong;
     @Column
     private Double gia;
-    @Column(nullable = false)
+    @Column(name = "trang_thai")
     private Boolean trangThai = true;  // Trạng thái của sân trong ca này (true = Trống, false = Đã đặt)
 }

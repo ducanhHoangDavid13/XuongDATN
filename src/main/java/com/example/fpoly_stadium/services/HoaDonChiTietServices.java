@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -26,7 +27,7 @@ public class HoaDonChiTietServices {
 
     // Tạo mới một hóa đơn chi tiết
     @Transactional
-    public HoaDonChiTiet taoHoaDonChiTiet(Integer hoaDonId, Integer sanCaId, Integer ngayDenSan, Integer tienGiamGia, String ghiChu) {
+    public HoaDonChiTiet taoHoaDonChiTiet(Integer hoaDonId, Integer sanCaId, LocalDateTime ngayDenSan, Integer tienGiamGia, String ghiChu) {
         HoaDon hoaDon = hoaDonRepository.findById(hoaDonId)
                 .orElseThrow(() -> new RuntimeException("Hóa đơn không tồn tại"));
         SanCa sanCa = sanCaRepository.findById(sanCaId)
@@ -60,7 +61,7 @@ public class HoaDonChiTietServices {
 
     // Cập nhật hóa đơn chi tiết
     @Transactional
-    public HoaDonChiTiet capNhatHoaDonChiTiet(Integer id, Integer sanCaId, Integer ngayDenSan, Integer tienGiamGia, String ghiChu) {
+    public HoaDonChiTiet capNhatHoaDonChiTiet(Integer id, Integer sanCaId, LocalDateTime ngayDenSan, Integer tienGiamGia, String ghiChu) {
         HoaDonChiTiet hoaDonChiTiet = layHoaDonChiTietTheoId(id);
         SanCa sanCa = sanCaRepository.findById(sanCaId)
                 .orElseThrow(() -> new RuntimeException("Sân ca không tồn tại"));

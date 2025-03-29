@@ -22,7 +22,7 @@ public interface HoaDonRepository extends JpaRepository<HoaDon, Integer> {
     List<HoaDon> findByKhachHang_HoVaTenContainingIgnoreCase(String keyword);
 
     // Tìm hóa đơn theo tên nhân viên
-    List<HoaDon> findByNhanVien_HoVaTenContainingIgnoreCase(String keyword);
+    List<HoaDon> findByNhanVien_TenNhanVienContainingIgnoreCase(String keyword);
 
     // Tìm hóa đơn theo khoảng ngày tạo
     List<HoaDon> findByNgayTaoBetween(LocalDateTime startDate, LocalDateTime endDate);
@@ -31,17 +31,17 @@ public interface HoaDonRepository extends JpaRepository<HoaDon, Integer> {
     List<HoaDon> findByTongTienBetween(BigDecimal minPrice, BigDecimal maxPrice);
 
     // Lọc hóa đơn theo ngày, tổng tiền và trạng thái
-    @Query("SELECT h FROM HoaDon h WHERE h.maHoaDon LIKE %:maHoaDon% AND h.trangThai = :trangThai")
-    List<HoaDon> searchAndFilterHoaDon(
-            @Param("maHoaDon") String maHoaDon,
-            @Param("tenKhachHang") String tenKhachHang,
-            @Param("tenNhanVien") String tenNhanVien,
-            @Param("startDate") LocalDateTime startDate,
-            @Param("endDate") LocalDateTime endDate,
-            @Param("minPrice") BigDecimal minPrice,
-            @Param("maxPrice") BigDecimal maxPrice,
-            @Param("trangThai") Integer trangThai);
-
-    List<HoaDon> findByHoaDon(HoaDon hoaDon);
+//    @Query("SELECT h FROM HoaDon h WHERE h.maHoaDon LIKE %:maHoaDon% AND h.trangThai = :trangThai")
+//    List<HoaDon> searchAndFilterHoaDon(
+//            @Param("maHoaDon") String maHoaDon,
+//            @Param("tenKhachHang") String tenKhachHang,
+//            @Param("tenNhanVien") String tenNhanVien,
+//            @Param("startDate") LocalDateTime startDate,
+//            @Param("endDate") LocalDateTime endDate,
+//            @Param("minPrice") BigDecimal minPrice,
+//            @Param("maxPrice") BigDecimal maxPrice,
+//            @Param("trangThai") Integer trangThai);
+//
+//    List<HoaDon> findByHoaDon(HoaDon hoaDon);
 }
 

@@ -29,7 +29,7 @@ public class KhachHang extends CommonEntity {
     private String email;
 
     @Column(name = "gioi_tinh")
-    private Integer gioiTinh;
+    private Boolean gioiTinh;
 
     @Column(name = "so_dien_thoai")
     private String soDienThoai;

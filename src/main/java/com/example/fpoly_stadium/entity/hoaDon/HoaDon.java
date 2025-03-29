@@ -29,7 +29,7 @@ public class HoaDon extends CommonEntity {
     private KhachHang khachHang;
 
     @ManyToOne
-    @JoinColumn(name = "id_phuong_thuc_thanh_toan")
+    @JoinColumn(name = "id_hinh_thuc_thanh_toan")
     private HinhThucThanhToan hinhThucThanhToan;
 
     @Column(name = "ma_hoa_don", unique = true, nullable = false)
