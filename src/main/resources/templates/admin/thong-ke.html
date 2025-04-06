@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: template(~{::content})}">
+<head>
+  <!-- Có thể cần thêm link CSS/JS cho thư viện biểu đồ ở đây hoặc trong layout -->
+</head>
+<body>
+<div th:fragment="content">
+  <h2>Thống Kê Doanh Thu và Hoạt Động</h2>
+  <div th:if="${thongBaoLoi}" class="alert alert-danger" th:text="${thongBaoLoi}"></div>
+
+  <!-- Bộ lọc chung -->
+  <form th:action="@{/admin/statistics}" method="get" class="mb-4">
+    <div class="row align-items-end">
+      <div class="col-md-3">
+        <label for="filterStartDate" class="form-label">Từ ngày:</label>
+        <input type="date" class="form-control" id="filterStartDate" name="startDate" th:value="${#temporals.format(filterStartDate, 'yyyy-MM-dd')}"> <!-- Giả định Controller truyền filterStartDate -->
+      </div>
+      <div class="col-md-3">
+        <label for="filterEndDate" class="form-label">Đến ngày:</label>
+        <input type="date" class="form-control" id="filterEndDate" name="endDate" th:value="${#temporals.format(filterEndDate, 'yyyy-MM-dd')}"> <!-- Giả định Controller truyền filterEndDate -->
+      </div>
+      <div class="col-md-2">
+        <label for="filterYear" class="form-label">Năm:</label>
+        <select class="form-select" id="filterYear" name="year">
+          <option value="">Chọn năm</option>
+          <!-- Controller cần truyền danh sách năm (yearsList) -->
+          <option th:each="y : ${yearsList}" th:value="${y}" th:text="${y}" th:selected="${selectedYear == y}"></option> <!-- Giả định selectedYear -->
+        </select>
+      </div>
+      <div class="col-md-2">
+        <button type="submit" class="btn btn-primary w-100">Xem Thống Kê</button>
+      </div>
+      <div class="col-md-2">
+        <a th:href="@{/admin/statistics}" class="btn btn-secondary w-100">Reset Filter</a>
+      </div>
+    </div>
+  </form>
+
+  <!-- Thống kê tổng quan (ví dụ) -->
+  <div class="row mb-4 text-center">
+    <div class="col-md-3">
+      <div class="card text-white bg-primary">
+        <div class="card-body">
+          <h5 class="card-title">Doanh Thu Hôm Nay</h5>
+          <!-- Giả định Controller truyền 'doanhThuHomNay' -->
+          <p class="card-text fs-4" th:text="${#numbers.formatDecimal(doanhThuHomNay, 0, 'COMMA', 0, 'POINT')} + ' đ'"></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-white bg-success">
+        <div class="card-body">
+          <h5 class="card-title">Doanh Thu Tuần Này</h5>
+          <!-- Giả định Controller truyền 'doanhThuTuanNay' -->
+          <p class="card-text fs-4" th:text="${#numbers.formatDecimal(doanhThuTuanNay, 0, 'COMMA', 0, 'POINT')} + ' đ'"></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-white bg-info">
+        <div class="card-body">
+          <h5 class="card-title">Doanh Thu Tháng Này</h5>
+          <!-- Giả định Controller truyền 'doanhThuThangNay' -->
+          <p class="card-text fs-4" th:text="${#numbers.formatDecimal(doanhThuThangNay, 0, 'COMMA', 0, 'POINT')} + ' đ'"></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-white bg-warning">
+        <div class="card-body">
+          <h5 class="card-title">Doanh Thu Năm Nay</h5>
+          <!-- Giả định Controller truyền 'doanhThuNamNay' -->
+          <p class="card-text fs-4" th:text="${#numbers.formatDecimal(doanhThuNamNay, 0, 'COMMA', 0, 'POINT')} + ' đ'"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Biểu đồ Doanh thu theo tháng (Ví dụ dùng Chart.js) -->
+  <div class="card mb-4">
+    <div class="card-header">Biểu đồ Doanh thu theo tháng (Năm <span th:text="${selectedYear ?: 'Hiện tại'}"></span>)</div>
+    <div class="card-body">
+      <canvas id="revenueChartByMonth" width="400" height="200"></canvas>
+      <!-- Dữ liệu cho biểu đồ cần được truyền từ Controller dưới dạng JSON hoặc các biến riêng lẻ -->
+      <script th:inline="javascript">
+        /*<![CDATA[*/
+        // Giả định Controller truyền vào các list: labelsThang, dataDoanhThuThang
+        const labelsThang = /*[[${labelsThang}]]*/ ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'];
+        const dataDoanhThuThang = /*[[${dataDoanhThuThang}]]*/ [1200, 1900, 3000, 5000, 2000, 3000, 4500, 4000, 6000, 7000, 8000, 9500]; // Ví dụ
+
+        const ctxMonth = document.getElementById('revenueChartByMonth').getContext('2d');
+        const revenueChartByMonth = new Chart(ctxMonth, {
+          type: 'line', // Hoặc 'bar'
+          data: {
+            labels: labelsThang,
+            datasets: [{
+              label: 'Doanh thu (VNĐ)',
+              data: dataDoanhThuThang,
+              borderColor: 'rgb(75, 192, 192)',
+              tension: 0.1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+        /*]]>*/
+      </script>
+    </div>
+  </div>
+
+  <!-- Biểu đồ tròn Tỷ lệ Đồ thuê / Nước uống (Ví dụ) -->
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card mb-4">
+        <div class="card-header">Tỷ lệ Doanh thu Đồ Thuê (Năm <span th:text="${selectedYear ?: 'Hiện tại'}"></span>)</div>
+        <div class="card-body">
+          <canvas id="rentalRevenueChart" width="400" height="400"></canvas>
+          <script th:inline="javascript">
+            /*<![CDATA[*/
+            // Giả định Controller truyền vào: labelsDoThue, dataDoanhThuDoThue
+            const labelsDoThue = /*[[${labelsDoThue}]]*/ ['Áo đấu', 'Giày', 'Bóng'];
+            const dataDoanhThuDoThue = /*[[${dataDoanhThuDoThue}]]*/ [300, 50, 100]; // Ví dụ
+            const ctxRental = document.getElementById('rentalRevenueChart').getContext('2d');
+            const rentalRevenueChart = new Chart(ctxRental, {
+              type: 'doughnut', // Hoặc 'pie'
+              data: {
+                labels: labelsDoThue,
+                datasets: [{
+                  label: 'Doanh thu Đồ Thuê',
+                  data: dataDoanhThuDoThue,
+                  backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)'
+                  ],
+                  hoverOffset: 4
+                }]
+              }
+            });
+            /*]]>*/
+          </script>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card mb-4">
+        <div class="card-header">Tỷ lệ Doanh thu Nước Uống (Năm <span th:text="${selectedYear ?: 'Hiện tại'}"></span>)</div>
+        <div class="card-body">
+          <canvas id="beverageRevenueChart" width="400" height="400"></canvas>
+          <script th:inline="javascript">
+            /*<![CDATA[*/
+            // Giả định Controller truyền vào: labelsNuocUong, dataDoanhThuNuocUong
+            const labelsNuocUong = /*[[${labelsNuocUong}]]*/ ['Nước lọc', 'Sting', 'Coca'];
+            const dataDoanhThuNuocUong = /*[[${dataDoanhThuNuocUong}]]*/ [150, 400, 250]; // Ví dụ
+            const ctxBeverage = document.getElementById('beverageRevenueChart').getContext('2d');
+            const beverageRevenueChart = new Chart(ctxBeverage, {
+              type: 'doughnut',
+              data: {
+                labels: labelsNuocUong,
+                datasets: [{
+                  label: 'Doanh thu Nước Uống',
+                  data: dataDoanhThuNuocUong,
+                  backgroundColor: [
+                    'rgb(75, 192, 192)',
+                    'rgb(255, 159, 64)',
+                    'rgb(153, 102, 255)'
+                  ],
+                  hoverOffset: 4
+                }]
+              }
+            });
+            /*]]>*/
+          </script>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+<!-- Nhúng thư viện Chart.js (nên đặt trong layout hoặc cuối body) -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>

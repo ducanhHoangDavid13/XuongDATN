@@ -1,10 +1,8 @@
 package com.example.fpoly_stadium.services;
 
-import com.example.fpoly_stadium.entity.user.User;
-import java.util.List;
+import com.example.fpoly_stadium.model.Account;
 
 public interface UserService {
-    void encodeAllPasswords();
-    void saveUser(User user);
-    List<User> getAllUsers();
+    Account registerUser(Account user);
+    Account findByUsername(String username);
 }

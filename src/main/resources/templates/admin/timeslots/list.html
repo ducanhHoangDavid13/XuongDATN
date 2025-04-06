@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/admin-layout :: adminLayout(~{::title}, ~{::section})}">
+<head>
+  <title>Quản Lý Ca Đá</title>
+</head>
+<body>
+<section>
+  <div class="container-fluid pt-4 px-4">
+    <div class="bg-light rounded p-4">
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <h6 class="mb-0">Danh Sách Ca Đá</h6>
+        <a th:href="@{/admin/timeslots/new}" class="btn btn-success">Thêm Ca Mới</a>
+      </div>
+
+      <!-- Thông báo thành công -->
+      <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fa fa-check-circle me-2"></i><span th:text="${successMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+
+      <!-- Thông báo lỗi -->
+      <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fa fa-exclamation-circle me-2"></i><span th:text="${errorMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table text-start align-middle table-bordered table-hover mb-0">
+          <thead>
+          <tr class="text-dark">
+            <th scope="col">ID</th>
+            <th scope="col">Tên Ca</th>
+            <th scope="col">Bắt Đầu</th>
+            <th scope="col">Kết Thúc</th>
+            <th scope="col">Giá (VNĐ)</th>
+            <th scope="col">Trạng Thái</th>
+            <th scope="col">Hành Động</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="ca : ${caDaList}">
+            <td th:text="${ca.id}">1</td>
+            <td th:text="${ca.tenCa}">Ca Sáng 1</td>
+            <td th:text="${#temporals.format(ca.thoiGianBatDau, 'HH:mm')}">09:00</td>
+            <td th:text="${#temporals.format(ca.thoiGianKetThuc, 'HH:mm')}">11:30</td>
+            <td th:text="${#numbers.formatDecimal(ca.giaCa, 0, 'COMMA', 0, 'POINT')}">300,000</td>
+            <td>
+              <span th:if="${ca.trangThai == 'HoatDong'}" class="badge bg-success">Hoạt động</span>
+              <span th:if="${ca.trangThai == 'TamDung'}" class="badge bg-warning">Tạm dừng</span>
+            </td>
+            <td>
+              <a class="btn btn-sm btn-primary me-2" th:href="@{/admin/timeslots/{id}/edit(id=${ca.id})}">Sửa</a>
+              <!-- Nút xóa dùng form để gửi POST -->
+              <form th:action="@{/admin/timeslots/{id}/delete(id=${ca.id})}" method="post" style="display: inline;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa ca đá này?');">
+                <button type="submit" class="btn btn-sm btn-danger">Xóa</button>
+              </form>
+            </td>
+          </tr>
+          <tr th:if="${#lists.isEmpty(caDaList)}">
+            <td colspan="7" class="text-center">Không có dữ liệu ca đá.</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

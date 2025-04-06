@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: template(~{::content})}">
+<head>
+</head>
+<body>
+<div th:fragment="content">
+  <h2>Quản Lý Luật Sân</h2>
+  <div th:if="${thongBaoThanhCong}" class="alert alert-success" th:text="${thongBaoThanhCong}"></div>
+  <div th:if="${thongBaoLoi}" class="alert alert-danger" th:text="${thongBaoLoi}"></div>
+
+  <div class="row">
+    <div class="col-md-12"> <!-- Có thể chia làm 2 cột nếu muốn -->
+      <h3>Nội dung Luật Sân Hiện Tại</h3>
+      <!-- Giả sử bạn chỉ có một bản ghi luật sân chính -->
+      <form th:action="@{/admin/rules/save}" th:object="${luatSan}" method="post">
+        <!-- Giả sử luật sân có ID cố định hoặc bạn lấy bản ghi duy nhất -->
+        <input type="hidden" th:field="*{id}" />
+        <div class="mb-3">
+          <label for="noiDungLuatSan" class="form-label">Nội dung:</label>
+          <!-- Sử dụng trình soạn thảo văn bản (rich text editor) nếu cần định dạng -->
+          <textarea class="form-control" id="noiDungLuatSan" rows="15" th:field="*{noiDung}" required></textarea>
+          <div class="text-danger" th:if="${#fields.hasErrors('noiDung')}" th:errors="*{noiDung}"></div>
+        </div>
+        <button type="submit" class="btn btn-primary">Lưu Luật Sân</button>
+        <!-- Có thể thêm nút Xem trước nếu cần -->
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>

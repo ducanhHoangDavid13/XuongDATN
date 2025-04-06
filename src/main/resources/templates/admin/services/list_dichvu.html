@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/admin-layout :: adminLayout(~{::title}, ~{::section})}">
+<head>
+  <title>Quản Lý Dịch Vụ</title>
+</head>
+<body>
+<section>
+  <div class="container-fluid pt-4 px-4">
+    <div class="bg-light rounded p-4">
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <h6 class="mb-0">Danh Sách Dịch Vụ</h6>
+        <a th:href="@{/admin/services/new}" class="btn btn-success">Thêm Dịch Vụ</a>
+      </div>
+
+      <!-- Thông báo -->
+      <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fa fa-check-circle me-2"></i><span th:text="${successMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fa fa-exclamation-triangle me-2"></i><span th:text="${errorMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table text-start align-middle table-bordered table-hover mb-0">
+          <thead>
+          <tr class="text-dark">
+            <th scope="col">ID</th>
+            <th scope="col">Tên Dịch Vụ</th>
+            <th scope="col">Loại DV</th>
+            <th scope="col">Đơn Vị</th>
+            <th scope="col">Giá (VNĐ)</th>
+            <th scope="col">Tồn Kho</th>
+            <th scope="col">Trạng Thái</th>
+            <th scope="col">Hành Động</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="dv : ${dichVuList}">
+            <td th:text="${dv.id}">1</td>
+            <td th:text="${dv.tenDichVu}">Nước Khoáng</td>
+            <!-- Giả sử có liên kết đến LoaiDichVu -->
+            <td th:text="${dv.loaiDichVu?.tenLoai}">Nước uống</td>
+            <td th:text="${dv.donViTinh}">Chai</td>
+            <td th:text="${#numbers.formatDecimal(dv.gia, 0, 'COMMA', 0, 'POINT')}">10,000</td>
+            <td th:text="${dv.soLuongTonKho != null ? dv.soLuongTonKho : 'N/A'}">100</td>
+            <td>
+              <span th:if="${dv.trangThai == 'DangKinhDoanh'}" class="badge bg-success">Đang KD</span>
+              <span th:if="${dv.trangThai == 'NgungKinhDoanh'}" class="badge bg-secondary">Ngừng KD</span>
+              <span th:if="${dv.trangThai == 'TamHet'}" class="badge bg-warning">Tạm Hết</span>
+            </td>
+            <td>
+              <a class="btn btn-sm btn-primary me-2" th:href="@{/admin/services/{id}/edit(id=${dv.id})}">Sửa</a>
+              <form th:action="@{/admin/services/{id}/delete(id=${dv.id})}" method="post" style="display: inline;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa dịch vụ này?');">
+                <button type="submit" class="btn btn-sm btn-danger">Xóa</button>
+              </form>
+            </td>
+          </tr>
+          <tr th:if="${#lists.isEmpty(dichVuList)}">
+            <td colspan="8" class="text-center">Không có dữ liệu dịch vụ.</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

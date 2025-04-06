@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Không Tìm Thấy Trang</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f8f9fa; color: #333; text-align: center; padding: 40px; }
+        .container { max-width: 600px; margin: auto; background-color: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #ffc107; font-size: 2.5em; margin-bottom: 15px; } /* Màu vàng cho cảnh báo nhẹ */
+        p { font-size: 1.1em; margin-bottom: 25px; }
+        .error-code { font-size: 1.5em; color: #6c757d; font-weight: bold; margin-bottom: 20px; }
+        a { color: #007bff; text-decoration: none; padding: 10px 20px; border: 1px solid #007bff; border-radius: 5px; transition: background-color 0.3s, color 0.3s; }
+        a:hover { background-color: #007bff; color: #fff; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>404</h1>
+    <p class="error-code">Không Tìm Thấy Trang</p>
+    <p>Oops! Có vẻ như trang bạn đang tìm kiếm không tồn tại hoặc đã bị di chuyển.</p>
+    <!-- Bạn có thể thêm đường dẫn không tìm thấy từ controller nếu cần -->
+    <!-- <p th:if="${path}" th:text="'Đường dẫn không tồn tại: ' + ${path}" style="color: #6c757d;"></p> -->
+    <a th:href="@{/}">Quay về Trang Chủ</a>
+</div>
+</body>
+</html>

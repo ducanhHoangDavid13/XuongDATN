@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/admin-layout :: adminLayout(~{::title}, ~{::section})}">
+<head>
+  <title th:text="${pageTitle}">Thêm/Sửa Dịch Vụ</title>
+</head>
+<body>
+<section>
+  <div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+      <div class="col-sm-12 col-xl-10">
+        <div class="bg-light rounded h-100 p-4">
+          <h6 class="mb-4" th:text="${pageTitle}">Thêm/Sửa Dịch Vụ</h6>
+
+          <!-- Thông báo lỗi -->
+          <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+            <i class="fa fa-exclamation-triangle me-2"></i>
+            <span th:text="${errorMessage}"></span>
+          </div>
+          <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger" role="alert">
+            <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">Lỗi tổng quát</p>
+          </div>
+
+          <!-- FORM -->
+          <form th:object="${dichVu}"
+                th:action="${isEdit} ? @{/admin/services/{id}(id=${dichVu.id})} : @{/admin/services}"
+                method="post">
+            <input type="hidden" th:if="${isEdit}" th:field="*{id}" />
+
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="loaiDichVu" class="form-label">Loại Dịch Vụ (*)</label>
+                <select class="form-select" id="loaiDichVu" th:field="*{loaiDichVu}" required
+                        th:classappend="${#fields.hasErrors('loaiDichVu')} ? 'is-invalid' : ''">
+                  <option value="">-- Chọn loại dịch vụ --</option>
+                  <option th:each="ldv : ${loaiDichVuList}"
+                          th:value="${ldv.id}"
+                          th:text="${ldv.tenLoai}"
+                          th:selected="${dichVu.loaiDichVu != null && dichVu.loaiDichVu.id == ldv.id}">
+                  </option>
+                </select>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('loaiDichVu')}" th:errors="*{loaiDichVu}"></div>
+              </div>
+
+              <div class="col-md-6">
+                <label for="tenDichVu" class="form-label">Tên Dịch Vụ (*)</label>
+                <input type="text" class="form-control" id="tenDichVu" th:field="*{tenDichVu}" required maxlength="100"
+                       th:classappend="${#fields.hasErrors('tenDichVu')} ? 'is-invalid' : ''">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('tenDichVu')}" th:errors="*{tenDichVu}"></div>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-md-4">
+                <label for="donViTinh" class="form-label">Đơn Vị Tính</label>
+                <input type="text" class="form-control" id="donViTinh" th:field="*{donViTinh}" maxlength="20">
+              </div>
+              <div class="col-md-4">
+                <label for="gia" class="form-label">Giá (VNĐ) (*)</label>
+                <input type="number" step="100" min="0" class="form-control" id="gia" th:field="*{gia}" required
+                       th:classappend="${#fields.hasErrors('gia')} ? 'is-invalid' : ''">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('gia')}" th:errors="*{gia}"></div>
+              </div>
+              <div class="col-md-4">
+                <label for="soLuongTonKho" class="form-label">Số Lượng Tồn Kho</label>
+                <input type="number" min="0" class="form-control" id="soLuongTonKho"
+                       th:field="*{soLuongTonKho}" placeholder="Để trống nếu không quản lý">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('soLuongTonKho')}" th:errors="*{soLuongTonKho}"></div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="anhMinhHoa" class="form-label">Ảnh Minh Họa (URL)</label>
+              <input type="text" class="form-control" id="anhMinhHoa" th:field="*{anhMinhHoa}" maxlength="255">
+            </div>
+
+            <div class="mb-3">
+              <label for="moTa" class="form-label">Mô Tả</label>
+              <textarea class="form-control" id="moTa" rows="3" th:field="*{moTa}" maxlength="500"></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label for="trangThai" class="form-label">Trạng Thái (*)</label>
+              <select class="form-select" id="trangThai" th:field="*{trangThai}" required
+                      th:classappend="${#fields.hasErrors('trangThai')} ? 'is-invalid' : ''">
+                <option value="" th:if="${!isEdit}" disabled selected>-- Chọn trạng thái --</option>
+                <option value="DangKinhDoanh">Đang Kinh Doanh</option>
+                <option value="NgungKinhDoanh">Ngừng Kinh Doanh</option>
+                <option value="TamHet">Tạm Hết</option>
+              </select>
+              <div class="invalid-feedback" th:if="${#fields.hasErrors('trangThai')}" th:errors="*{trangThai}"></div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Lưu Thay Đổi</button>
+            <a th:href="@{/admin/services}" class="btn btn-secondary">Hủy</a>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

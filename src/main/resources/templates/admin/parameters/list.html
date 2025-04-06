@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: template(~{::content})}">
+<head>
+</head>
+<body>
+<div th:fragment="content">
+  <h2>Quản Lý Tham Số Hệ Thống</h2>
+  <div th:if="${thongBaoThanhCong}" class="alert alert-success" th:text="${thongBaoThanhCong}"></div>
+  <div th:if="${thongBaoLoi}" class="alert alert-danger" th:text="${thongBaoLoi}"></div>
+  <!-- Có thể không cần nút Thêm Mới nếu tham số là cố định -->
+  <!-- <a th:href="@{/admin/parameters/new}" class="btn btn-success float-end">Thêm mới</a> -->
+  <table class="table">
+    <thead>
+    <tr>
+      <th>STT</th>
+      <th>Chức năng</th>
+      <th>Mã Code</th>
+      <th>Kiểu</th> <!-- Ví dụ: phút, ngày, %, số nguyên -->
+      <th>Giá trị</th>
+      <th>Ghi chú</th>
+      <th>Trạng thái</th>
+      <th>Thao tác</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Giả sử controller truyền vào 'danhSachThamSo' -->
+    <tr th:each="thamSo, iterStat : ${danhSachThamSo}">
+      <td th:text="${iterStat.count}"></td>
+      <td th:text="${thamSo.chucNang}"></td>
+      <td th:text="${thamSo.maCode}"></td>
+      <td th:text="${thamSo.type}"></td>
+      <td th:text="${thamSo.value}"></td>
+      <td th:text="${thamSo.ghiChu}"></td>
+      <td th:text="${thamSo.trangThai}"></td>
+      <td>
+        <a th:href="@{/admin/parameters/{id}/edit(id=${thamSo.id})}" class="btn btn-sm btn-warning">Sửa Giá Trị</a>
+        <!-- Thường không xóa tham số hệ thống -->
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

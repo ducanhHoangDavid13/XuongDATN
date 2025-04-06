@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/admin-layout :: adminLayout(~{::title}, ~{::section})}">
+<head>
+  <title>Quản Lý Sân Bóng</title>
+</head>
+<body>
+<section>
+  <div class="container-fluid pt-4 px-4">
+    <div class="bg-light rounded p-4">
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <h6 class="mb-0">Danh Sách Sân Bóng</h6>
+        <a th:href="@{/admin/pitches/new}" class="btn btn-success">Thêm Sân Mới</a>
+      </div>
+
+      <!-- Thông báo -->
+      <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fa fa-check-circle me-2"></i><span th:text="${successMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fa fa-exclamation-triangle me-2"></i><span th:text="${errorMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table text-start align-middle table-bordered table-hover mb-0">
+          <thead>
+          <tr class="text-dark">
+            <th scope="col">ID</th>
+            <th scope="col">Tên Sân</th>
+            <th scope="col">Loại Sân</th>
+            <th scope="col">Địa Chỉ</th>
+            <!-- <th scope="col">Sức chứa</th> -->
+            <th scope="col">Trạng Thái</th>
+            <th scope="col">Hành Động</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="sb : ${pitchList}">
+            <td th:text="${sb.id}">1</td>
+            <td th:text="${sb.tenSan}">Sân 1</td>
+            <!-- Giả sử SanBong có liên kết đến LoaiSan -->
+            <td th:text="${sb.loaiSan?.tenLoaiSan}">Sân 7</td>
+            <td th:text="${sb.diaChi}">123 Đường ABC</td>
+            <!-- <td th:text="${sb.sucChua}">14</td> -->
+            <td>
+              <span th:if="${sb.trangThai == 'HoatDong'}" class="badge bg-success">Hoạt động</span>
+              <span th:if="${sb.trangThai == 'BaoTri'}" class="badge bg-warning">Bảo trì</span>
+              <span th:if="${sb.trangThai == 'TamNgung'}" class="badge bg-secondary">Tạm Ngưng</span>
+            </td>
+            <td>
+              <a class="btn btn-sm btn-primary me-2" th:href="@{/admin/pitches/{id}/edit(id=${sb.id})}">Sửa</a>
+              <!-- Nút xóa dùng form POST -->
+              <form th:action="@{/admin/pitches/{id}/delete(id=${sb.id})}" method="post" style="display: inline;"
+                    onsubmit="return confirm('Bạn có chắc chắn muốn xóa sân bóng này? Việc này có thể ảnh hưởng đến lịch đặt đã có!');">
+                <button type="submit" class="btn btn-sm btn-danger">Xóa</button>
+              </form>
+            </td>
+          </tr>
+          <tr th:if="${#lists.isEmpty(pitchList)}">
+            <td colspan="6" class="text-center">Không có dữ liệu sân bóng.</td>
+            <!-- Điều chỉnh colspan nếu thêm/bớt cột -->
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: template(~{::content})}">
+<head>
+</head>
+<body>
+<div th:fragment="content">
+  <h2 th:text="${tieuDeTrang}"></h2> <!-- Title sẽ khác nhau -->
+  <div th:if="${thongBaoLoi}" class="alert alert-danger" th:text="${thongBaoLoi}"></div>
+  <!-- Thay đổi URL và object -->
+  <form th:action="${laChinhSua ? @{/admin/rentals/{id}(id=${item.id})} : @{/admin/rentals}}"
+        th:object="${item}" method="post" enctype="multipart/form-data"> <!-- Nhớ enctype -->
+    <input type="hidden" th:field="*{id}" th:if="${laChinhSua}"/>
+
+    <div class="mb-3">
+      <!-- Thay đổi label và field -->
+      <label for="tenItem" class="form-label">Tên Đồ Thuê / Nước Uống:</label>
+      <input type="text" class="form-control" id="tenItem" th:field="*{tenDoThue}" required> <!-- hoặc tenNuocUong -->
+      <div class="text-danger" th:if="${#fields.hasErrors('tenDoThue')}" th:errors="*{tenDoThue}"></div> <!-- hoặc tenNuocUong -->
+    </div>
+
+    <div class="mb-3">
+      <label for="donGia" class="form-label">Đơn giá:</label>
+      <input type="number" class="form-control" id="donGia" th:field="*{donGia}" required>
+      <div class="text-danger" th:if="${#fields.hasErrors('donGia')}" th:errors="*{donGia}"></div>
+    </div>
+
+    <div class="mb-3">
+      <label for="soLuong" class="form-label">Số lượng:</label>
+      <input type="number" class="form-control" id="soLuong" th:field="*{soLuong}" required>
+      <div class="text-danger" th:if="${#fields.hasErrors('soLuong')}" th:errors="*{soLuong}"></div>
+    </div>
+
+    <div class="mb-3">
+      <label for="anhUpload" class="form-label">Ảnh:</label>
+      <input type="file" class="form-control" id="anhUpload" name="fileAnh"> <!-- Tên param cần xử lý ở Controller -->
+      <!-- Hiển thị ảnh hiện tại nếu đang sửa -->
+      <img th:if="${laChinhSua and item.anh != null}" th:src="@{/images/{imageName}(imageName=${item.anh})}" width="100" class="mt-2"/>
+    </div>
+
+    <div class="mb-3">
+      <label for="trangThai" class="form-label">Trạng thái:</label>
+      <!-- Controller cần truyền 'danhSachTrangThai' -->
+      <select class="form-select" id="trangThai" th:field="*{trangThai}" required>
+        <option value="">Chọn trạng thái</option>
+        <option th:each="status : ${danhSachTrangThai}" th:value="${status}" th:text="${status}"></option> <!-- Ví dụ: Còn hàng, Hết hàng, Ngừng kinh doanh -->
+      </select>
+      <div class="text-danger" th:if="${#fields.hasErrors('trangThai')}" th:errors="*{trangThai}"></div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Lưu</button>
+    <!-- Thay đổi URL -->
+    <a th:href="@{/admin/rentals}" class="btn btn-secondary">Hủy</a> <!-- hoặc /admin/beverages -->
+  </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lỗi Máy Chủ Nội Bộ</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f8f9fa; color: #333; text-align: center; padding: 40px; }
+        .container { max-width: 600px; margin: auto; background-color: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #dc3545; font-size: 2.5em; margin-bottom: 15px; }
+        p { font-size: 1.1em; margin-bottom: 25px; }
+        .error-code { font-size: 1.5em; color: #6c757d; font-weight: bold; margin-bottom: 20px; }
+        .links a { display: inline-block; margin: 5px; color: #007bff; text-decoration: none; padding: 10px 20px; border: 1px solid #007bff; border-radius: 5px; transition: background-color 0.3s, color 0.3s; }
+        .links a:hover { background-color: #007bff; color: #fff; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>500</h1>
+    <p class="error-code">Lỗi Máy Chủ Nội Bộ</p>
+    <p>Đã xảy ra lỗi không mong muốn ở phía máy chủ. Chúng tôi đang khắc phục sự cố. Vui lòng thử lại sau.</p>
+    <!-- Không nên hiển thị lỗi chi tiết cho người dùng cuối vì lý do bảo mật -->
+    <!-- Bạn có thể thêm mã lỗi (trace ID) nếu hệ thống của bạn có sinh ra -->
+    <!-- <p th:if="${traceId}" th:text="'Mã lỗi tham chiếu: ' + ${traceId}" style="color: #6c757d;"></p> -->
+    <div class="links">
+        <a th:href="@{/}">Quay về Trang Chủ</a>
+        <!-- Có thể thêm link liên hệ hỗ trợ -->
+        <!-- <a th:href="@{/contact}">Liên hệ hỗ trợ</a> -->
+    </div>
+</div>
+</body>
+</html>

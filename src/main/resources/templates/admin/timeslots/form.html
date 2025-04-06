@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/admin-layout :: adminLayout(~{::title}, ~{::section})}">
+<head>
+  <title th:text="${pageTitle}">Thêm/Sửa Ca Đá</title>
+</head>
+<body>
+<section>
+  <div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+      <div class="col-sm-12 col-xl-8"> <!-- Điều chỉnh độ rộng cột nếu cần -->
+        <div class="bg-light rounded h-100 p-4">
+          <h6 class="mb-4" th:text="${pageTitle}">Thêm/Sửa Ca Đá</h6>
+
+          <!-- Hiển thị lỗi validation tổng quát -->
+          <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger" role="alert">
+            <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">Lỗi tổng quát</p>
+          </div>
+
+          <form th:object="${caDa}" th:action="${isEdit} ? @{/admin/timeslots/{id}(id=${caDa.id})} : @{/admin/timeslots}" method="post">
+            <!-- Giữ lại ID khi edit -->
+            <input type="hidden" th:if="${isEdit}" th:field="*{id}" />
+
+            <div class="mb-3">
+              <label for="tenCa" class="form-label">Tên Ca (*)</label>
+              <input type="text" class="form-control" id="tenCa" th:field="*{tenCa}" required
+                     th:classappend="${#fields.hasErrors('tenCa')} ? 'is-invalid' : ''">
+              <div class="invalid-feedback" th:if="${#fields.hasErrors('tenCa')}" th:errors="*{tenCa}"></div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="thoiGianBatDau" class="form-label">Thời Gian Bắt Đầu (*)</label>
+                <input type="time" class="form-control" id="thoiGianBatDau" th:field="*{thoiGianBatDau}" required
+                       th:classappend="${#fields.hasErrors('thoiGianBatDau')} ? 'is-invalid' : ''">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('thoiGianBatDau')}" th:errors="*{thoiGianBatDau}"></div>
+              </div>
+              <div class="col-md-6">
+                <label for="thoiGianKetThuc" class="form-label">Thời Gian Kết Thúc (*)</label>
+                <input type="time" class="form-control" id="thoiGianKetThuc" th:field="*{thoiGianKetThuc}" required
+                       th:classappend="${#fields.hasErrors('thoiGianKetThuc') or #fields.hasErrors('thoiGianHopLe')} ? 'is-invalid' : ''">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('thoiGianKetThuc')}" th:errors="*{thoiGianKetThuc}"></div>
+                <!-- Hiển thị lỗi AssertTrue -->
+                <div class="invalid-feedback" th:if="${#fieldsS.hasErrors('thoiGianHopLe')}" th:errors="*{thoiGianHopLe}"></div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="giaCa" class="form-label">Giá Ca (VNĐ) (*)</label>
+              <input type="number" step="1000" min="0" class="form-control" id="giaCa" th:field="*{giaCa}" required
+                     th:classappend="${#fields.hasErrors('giaCa')} ? 'is-invalid' : ''">
+              <div class="invalid-feedback" th:if="${#fields.hasErrors('giaCa')}" th:errors="*{giaCa}"></div>
+            </div>
+            <div class="mb-3">
+              <label for="trangThai" class="form-label">Trạng Thái (*)</label>
+              <select class="form-select" id="trangThai" th:field="*{trangThai}" required
+                      th:classappend="${#fields.hasErrors('trangThai')} ? 'is-invalid' : ''">
+                <option value="HoatDong">Hoạt động</option>
+                <option value="TamDung">Tạm dừng</option>
+              </select>
+              <div class="invalid-feedback" th:if="${#fields.hasErrors('trangThai')}" th:errors="*{trangThai}"></div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Lưu Thay Đổi</button>
+            <a th:href="@{/admin/timeslots}" class="btn btn-secondary">Hủy</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

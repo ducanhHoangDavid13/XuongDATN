@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: template(~{::content})}">
+<head>
+</head>
+<body>
+<div th:fragment="content">
+  <h2>Chỉnh Sửa Giá Trị Tham Số: <span th:text="${thamSo.chucNang}"></span></h2>
+  <div th:if="${thongBaoLoi}" class="alert alert-danger" th:text="${thongBaoLoi}"></div>
+  <form th:action="@{/admin/parameters/{id}(id=${thamSo.id})}" th:object="${thamSo}" method="post">
+    <input type="hidden" th:field="*{id}" />
+    <input type="hidden" th:field="*{maCode}" />
+    <input type="hidden" th:field="*{chucNang}" />
+    <input type="hidden" th:field="*{type}" />
+    <input type="hidden" th:field="*{ghiChu}" />
+    <input type="hidden" th:field="*{trangThai}" /> <!-- Giữ trạng thái -->
+
+    <p><strong>Chức năng:</strong> <span th:text="*{chucNang}"></span></p>
+    <p><strong>Mã Code:</strong> <span th:text="*{maCode}"></span></p>
+    <p><strong>Kiểu:</strong> <span th:text="*{type}"></span></p>
+    <p><strong>Ghi chú:</strong> <span th:text="*{ghiChu}"></span></p>
+
+    <div class="mb-3">
+      <label for="value" class="form-label">Giá trị mới:</label>
+      <!-- Kiểu input có thể thay đổi tùy theo 'type' (text, number,...) -->
+      <input type="text" class="form-control" id="value" th:field="*{value}" required>
+      <div class="text-danger" th:if="${#fields.hasErrors('value')}" th:errors="*{value}"></div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Lưu Giá Trị</button>
+    <a th:href="@{/admin/parameters}" class="btn btn-secondary">Hủy</a>
+  </form>
+</div>
+</body>
+</html>
